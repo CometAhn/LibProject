@@ -41,11 +41,11 @@ String msg = (String) request.getAttribute("msg");
 				<h1>회원 정보 수정</h1>
 				<br>
 				<div class="signup_ct">
-					<form name="newMember" class="form-horizontal" action="/Lib/update" method="post" onsubmit="return checkForm()" autocomplete="off">
+					<form name="editMember" class="form-horizontal" action="/Lib/update" method="post" onsubmit="return checkForm()" autocomplete="off">
 						<input name="lid" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}">
 						<h3>비밀번호</h3>
 						<p>
-							<input name="password" type="password" class="form-control" placeholder="password" value="${login.password}" minlength="6" maxlength="16">
+							<input name="password" type="password" class="form-control" placeholder="password" value="" minlength="6" maxlength="16">
 						</p>
 						<h3>비밀번호 확인</h3>
 						<p>
@@ -85,12 +85,7 @@ String msg = (String) request.getAttribute("msg");
 
 						<h3>E-mail</h3>
 						<p>
-							<input type="text" name="email1" maxlength="50" value="${email1}">@ <select name="email2" id="mail2">
-								<option>naver.com</option>
-								<option>daum.net</option>
-								<option>gmail.com</option>
-								<option>nate.com</option>
-							</select>
+							<input type="email" name="email" class="form-control" value="${login.email}">
 						</p>
 						<h3>주소</h3>
 						<p>
@@ -102,7 +97,7 @@ String msg = (String) request.getAttribute("msg");
 						<br> <input type="submit" class="btn btn-primary" value="회원수정 ">
 					</form>
 					<br>
-					<form name="newMember" class="form-horizontal" action="/Lib/delete" method="post">
+					<form name="newMember1" class="form-horizontal" action="/Lib/delete" method="post">
 						<input name="id" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}"> <input type="submit" class="btn btn-danger" value="회원탈퇴 ">
 					</form>
 				</div>
@@ -114,17 +109,7 @@ String msg = (String) request.getAttribute("msg");
 </html>
 <script type="text/javascript">
 	function init() {
-		setComboMailValue("${email2}");
 		setComboBirthValue("${birthmm}");
-	}
-	function setComboMailValue(val) {
-		var selectMail = document.getElementById('mail2');
-		for (i = 0, j = selectMail.length; i < j; i++) {
-			if (selectMail.options[i].value == val) {
-				selectMail.options[i].selected = true;
-				break;
-			}
-		}
 	}
 	function setComboBirthValue(val) {
 		var selectBirth = document.getElementById('birthmm');
@@ -140,15 +125,11 @@ String msg = (String) request.getAttribute("msg");
         	alert('reCAPTCHA를 확인해 주세요.');
         	return false;
         }
-		if (!document.newMember.id.value) {
-			alert("아이디를 입력하세요.");
-			return false;
-		}
-		if (!document.newMember.password.value) {
+		if (!document.editMember.password.value) {
 			alert("비밀번호를 입력하세요.");
 			return false;
 		}
-		if (document.newMember.password.value != document.newMember.password_confirm.value) {
+		if (document.editMember.password.value != document.editMember.password_confirm.value) {
 			alert("비밀번호를 동일하게 입력하세요.");
 			return false;
 		}

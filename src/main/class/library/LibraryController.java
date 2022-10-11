@@ -215,7 +215,7 @@ public class LibraryController {
 	//// 멤버 시작
 	// 회원가입
 	@PostMapping("regist")
-	public String regist(@ModelAttribute Login g, @RequestParam String birthyy, @RequestParam String birthmm, @RequestParam String birthdd, @RequestParam String email1, @RequestParam String email2, @RequestParam String token, Model m, HttpServletRequest req) {
+	public String regist(@ModelAttribute Login g, @RequestParam String birthyy, @RequestParam String birthmm, @RequestParam String birthdd, @RequestParam String token, Model m, HttpServletRequest req) {
 		List<Login> list;
 		List<Login> list1;
 
@@ -234,11 +234,6 @@ public class LibraryController {
 		try {
 			// 년, 월, 일 값 birth에 넣기
 			g.setBirth(birthyy + "/" + birthmm + "/" + birthdd);
-			// 이메일 앞, 뒤 합쳐서 email에 넣기
-			g.setEmail(email1 + "@" + email2);
-			//System.out.println("생일 맞니?" + g.getBirth());
-			//System.out.println("이메일 맞니?" + g.getEmail());
-			//System.out.println("token test : " + token);
 			list = daoG.getid(g.getLid());
 			list1 = daoG.getemail(g.getEmail());
 
@@ -274,7 +269,6 @@ public class LibraryController {
 				// key = 인증용
 				String key = enc.randnum();
 				sd.sendmail(g.getLid(), g.getEmail(), key);
-				System.out.println("key값 나오니? " + key);
 				g.setEmailkey(key);
 				g.setChecked(false);
 			} else {
@@ -304,14 +298,11 @@ public class LibraryController {
 
 			// 번거롭지만 일단 ㄱ
 			String[] brith = g.getBirth().split("/"); // 생년월일 나누기
-			String[] mail = g.getEmail().split("@"); // 메일 나누기
 
 			m.addAttribute("login", g);
 			m.addAttribute("birthyy", brith[0]);
 			m.addAttribute("birthmm", brith[1]);
 			m.addAttribute("birthdd", brith[2]);
-			m.addAttribute("email1", mail[0]);
-			m.addAttribute("email2", mail[1]);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.warn("계정 조회 과정에서 문제 발생!!");
@@ -322,8 +313,7 @@ public class LibraryController {
 
 	// 업데이트
 	@PostMapping("/update")
-	public String update(@ModelAttribute Login g, @RequestParam String birthyy, @RequestParam String birthmm, @RequestParam String birthdd, @RequestParam String email1, @RequestParam String email2
-			, Model m, HttpServletRequest req) {
+	public String update(@ModelAttribute Login g, @RequestParam String birthyy, @RequestParam String birthmm, @RequestParam String birthdd, Model m, HttpServletRequest req) {
 
 		String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
 		JSONObject json = re.getJSONResponse(gRecaptchaResponse);
@@ -337,22 +327,36 @@ public class LibraryController {
 		}
 
 		try {
+
+			Login log = daoG.check(g.getLid());
+
 			// 년, 월, 일 값 birth에 넣기
-			g.setBirth(birthyy + "/" + birthmm + "/" + birthdd);
-			// 이메일 앞, 뒤 합쳐서 email에 넣기
-			g.setEmail(email1 + "@" + email2);
+			log.setBirth(birthyy + "/" + birthmm + "/" + birthdd);
 
 			// 비밀번호 암호화
 			// db저장용 난문자열
 			String pwkey = enc.randnum();
 			// 비밀번호 SHA-1 변환 저장 / 난문자열 저장
-			g.setPassword(enc.encrypt(g.getPassword(), pwkey));
-			g.setPasswordKey(pwkey);
+			log.setPassword(enc.encrypt(g.getPassword(), pwkey));
+			log.setPasswordKey(pwkey);
+
+			log.setName(g.getName());
+			log.setGender(g.getGender());
+			log.setPhone(g.getPhone());
+			log.setAddress(g.getAddress());
 
 			// 비밀번호 변경했으니 임시비번 아닌 걸로 ㄱ
-			g.setTemppw(false);
+			// 이메일 변경했으면 다시 인증할까?
+			if (!log.getEmail().equalsIgnoreCase(g.getEmail())) { // 기존 이메일과 입력한 이메일이 다르다면
+				// 인증 번호 메일로 보내고 로그인할 때 다시 인증받아라
+				String key = enc.randnum();
+				sd.sendmail(g.getLid(), g.getEmail(), key);
+				log.setEmailkey(key);
+				log.setChecked(false);
+				log.setEmail(g.getEmail());
+			}
 
-			daoG.update(g);
+			daoG.update(log);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("계정 정보 변경 중 오류 발생");

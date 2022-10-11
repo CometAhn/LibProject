@@ -116,14 +116,7 @@
                     <h3> 연락처 </h3>
                         <p> <input name="phone" type="number" class="form-control" placeholder="01000000000"  minlength="11" maxlength="11"></p>
                     <h3> E-mail </h3>
-                        <p> <input type="text" name="email1" maxlength="50" minlength="3">@
-                    <select name="email2">
-    				    <option>naver.com</option>
-					    <option>daum.net</option>
-					    <option>gmail.com</option>
-					    <option>nate.com</option>
-					</select>
-                            </p>
+                        <p> <input type="email" name="email"  class="form-control" placeholder="name@naver.com"></p>
                         <h3> 주소 </h3>
                             <p> <input name="address" type="text" class="form-control" placeholder="address"></p>
 

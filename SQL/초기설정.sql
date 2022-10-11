@@ -128,5 +128,5 @@ insert into recommend(month, library_bid) values(10, 7);
 insert into recommend(month, library_bid) values(10, 15);
 
 
-# id 비밀번호 : 1
+# id : admin | pw : 1
 insert into login(lid, password, password_key, name, gender, birth, email, phone, address, regist_day, grade, used, checked, temppw) values('admin','562be3445d93d0121c585d7e7c382d738f80a140','4svTH7r','김이름','남','2010/10/10','admin@ipi.pw', '010-0000-0000','주소', CURRENT_TIMESTAMP(), 1, 1,1,0);
