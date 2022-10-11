@@ -1,6 +1,15 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <html>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1N3FJ1ETYL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1N3FJ1ETYL');
+    </script>
 <title></title>
 </head>
 <body>
