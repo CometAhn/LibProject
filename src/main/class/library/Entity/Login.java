@@ -28,6 +28,7 @@ public class Login {
 	private String email;
 	private String phone;
 	private String address;
+	private String addressDetail;
 	private String registDay;
 	private boolean grade;
 	private boolean used;

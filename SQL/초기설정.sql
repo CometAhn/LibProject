@@ -48,6 +48,7 @@ create table Login (
     email  varchar(30),
     phone varchar(20),
     address varchar(90),
+    address_detail varchar(90),
     regist_day varchar(50), 
     grade boolean not null default 0,
     used boolean not null default 1,
@@ -129,4 +130,4 @@ insert into recommend(month, library_bid) values(10, 15);
 
 
 # id : admin | pw : 1
-insert into login(lid, password, password_key, name, gender, birth, email, phone, address, regist_day, grade, used, checked, temppw) values('admin','562be3445d93d0121c585d7e7c382d738f80a140','4svTH7r','김이름','남','2010/10/10','admin@ipi.pw', '010-0000-0000','주소', CURRENT_TIMESTAMP(), 1, 1,1,0);
+insert into login(lid, password, password_key, name, gender, birth, email, phone, address, address_detail, regist_day, grade, used, checked, temppw) values('admin','562be3445d93d0121c585d7e7c382d738f80a140','4svTH7r','김이름','남','2010/10/10','admin@ipi.pw', '010-0000-0000','주소','상세주소', CURRENT_TIMESTAMP(), 1, 1,1,0);

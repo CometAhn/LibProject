@@ -11,6 +11,7 @@ create table Login (
     email  varchar(30),
     phone varchar(20),
     address varchar(90),
+    address_detail varchar(90),
     regist_day varchar(50), 
     grade boolean not null default 0,
     used boolean not null default 1,
