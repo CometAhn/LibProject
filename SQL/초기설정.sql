@@ -134,12 +134,42 @@ insert into booklist(Title, Writer, description, category, publisher, stock, boo
 insert into booklist(Title, Writer, description, category, publisher, stock, book_cover, date) values('제목20', '작가', '내용', '분류', '출판사', 5, '/img/banner_1.jpg', CURRENT_TIMESTAMP());
 
 # recommend
+insert into recommend(month, library_bid) values(1, 3);
+insert into recommend(month, library_bid) values(1, 6);
+insert into recommend(month, library_bid) values(1, 9);
+insert into recommend(month, library_bid) values(2, 1);
+insert into recommend(month, library_bid) values(2, 5);
+insert into recommend(month, library_bid) values(2, 15);
+insert into recommend(month, library_bid) values(3, 18);
+insert into recommend(month, library_bid) values(3, 1);
+insert into recommend(month, library_bid) values(3, 3);
+insert into recommend(month, library_bid) values(4, 5);
+insert into recommend(month, library_bid) values(4, 6);
+insert into recommend(month, library_bid) values(4, 8);
+insert into recommend(month, library_bid) values(5, 15);
+insert into recommend(month, library_bid) values(5, 14);
+insert into recommend(month, library_bid) values(5, 13);
+insert into recommend(month, library_bid) values(6, 11);
+insert into recommend(month, library_bid) values(6, 19);
+insert into recommend(month, library_bid) values(6, 10);
+insert into recommend(month, library_bid) values(7, 8);
+insert into recommend(month, library_bid) values(7, 1);
+insert into recommend(month, library_bid) values(7, 20);
+insert into recommend(month, library_bid) values(8, 1);
+insert into recommend(month, library_bid) values(8, 10);
+insert into recommend(month, library_bid) values(8, 12);
 insert into recommend(month, library_bid) values(9, 3);
 insert into recommend(month, library_bid) values(9, 7);
 insert into recommend(month, library_bid) values(9, 14);
 insert into recommend(month, library_bid) values(10, 4);
 insert into recommend(month, library_bid) values(10, 7);
 insert into recommend(month, library_bid) values(10, 15);
+insert into recommend(month, library_bid) values(11, 5);
+insert into recommend(month, library_bid) values(11, 6);
+insert into recommend(month, library_bid) values(11, 7);
+insert into recommend(month, library_bid) values(12, 9);
+insert into recommend(month, library_bid) values(12, 1);
+insert into recommend(month, library_bid) values(12, 15);
 
 
 # id : admin | pw : 1

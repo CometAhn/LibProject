@@ -14,9 +14,12 @@
     </script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="/js/loading.js"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link href="http://localhost/css/style.css" rel="stylesheet">
+<link href="http://localhost/css/loading.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 <title>회원 수정</title>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -104,12 +107,10 @@ String msg = (String) request.getAttribute("msg");
 <body onload="init()">
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<jsp:include page="../menu.jsp" />
-	<section id="mid">
-		<div class="contents">
-			<div class="signup">
-				<h1>회원 정보 수정</h1>
-				<br>
-				<div class="signup_ct">
+<main>
+	<div class="justify-content-center d-flex justify-content-center">
+		<div class="w-25 p-3 border border-dark border-opacity-25 rounded">
+				<h1 class="p-3">회원 정보 수정</h1>
 					<form name="editMember" class="form-horizontal" action="/Lib/update" method="post" onsubmit="return checkForm()" autocomplete="off">
 						<input name="lid" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}">
 						<h3>비밀번호</h3>
@@ -125,8 +126,13 @@ String msg = (String) request.getAttribute("msg");
 							<input name="name" type="text" class="form-control" placeholder="name" value="${login.name}">
 						</p>
 						<h3>생년월일</h3>
+				<div class="row g-3">
+					<div class="col-sm-4">
 						<p>
-							<input type="text" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}"> <select name="birthmm" id="birthmm">
+							<input type="text" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}">
+					</div>
+					<div class="col-sm-4">
+					<select name="birthmm" id="birthmm">
 								<option value="">월</option>
 								<option value="01">1</option>
 								<option value="02">2</option>
@@ -140,8 +146,12 @@ String msg = (String) request.getAttribute("msg");
 								<option value="10">10</option>
 								<option value="11">11</option>
 								<option value="12">12</option>
-							</select> <input type="text" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}">
+							</select>
+					</div>
+					<div class="col-sm-4">
+					<input type="text" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}">
 						</p>
+					</div>
 						<h3>성별</h3>
 						<p>
 							<c:set var="gender" value="${row.gender}" />
@@ -164,16 +174,15 @@ String msg = (String) request.getAttribute("msg");
 						<center>
                             <div class="g-recaptcha" data-sitekey="6LctdVYiAAAAANSXZSeaohuJzWh5SCH6mvjrd-o9"></div>
                         </center>
-						<br> <input type="submit" class="btn btn-primary" value="회원수정 ">
+						<br> <input type="submit" class="btn btn-primary col-sm-3" value="회원수정 ">
 					</form>
 					<br>
 					<form name="newMember1" class="form-horizontal" action="/Lib/delete" method="post">
-						<input name="id" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}"> <input type="submit" class="btn btn-danger" value="회원탈퇴 ">
+						<input name="id" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}"> <input type="submit" class="btn btn-danger col-sm-3" value="회원탈퇴 ">
 					</form>
-				</div>
-			</div>
 		</div>
-	</section>
+	</div>
+</main>
 	<jsp:include page="../footer.jsp" />
 </body>
 </html>
