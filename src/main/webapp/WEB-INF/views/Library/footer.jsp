@@ -18,95 +18,20 @@ String name = (String) session.getAttribute("name");
       });
     }
 </script>
-<section id="bottom">
-	<div>
-		<div class="bott">
-			<div class="bot">
-				<div class="bottext">
-					<h5>Quick Link</h5>
-					<div class="bottextsize">
-						<div>
-							<div class="quick">
-								<p>
-									<a href="/Lib/index"><i class="fas fa-angle-right"></i> Home</a>
-								</p>
-							</div>
-							<div class="quick">
-								<p>
-									<a href="/Lib/list?pagenum=1&items=Title&text="><i class="fas fa-angle-right"></i> 도서 목록</a>
-								</p>
-							</div>
-							<c:choose>
-								<c:when test="${empty sessionId}">
-									<div class="quick">
-										<p>
-											<a href="/Lib/loginpage"><i class="fas fa-angle-right"></i></i> 장바구니 </a>
-										</p>
-									</div>
-									<div class="quick">
-										<p>
-											<a href="/Lib/loginpage"><i class="fas fa-angle-right"></i></i> 대여 목록 </a>
-										</p>
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="quick">
-										<p>
-											<a href="/Lib/listcart?id=<%=sessionId%>"><i class="fas fa-angle-right"></i> 장바구니 </a>
-										</p>
-									</div>
-									<div class="quick">
-										<p>
-											<a href="/Lib/listloan?id=<%=sessionId%>"><i class="fas fa-angle-right"></i> 대여 목록 </a>
-										</p>
-									</div>
-								</c:otherwise>
-							</c:choose>
-							<div class="quick">
-								<p>
-									<a href="/Lib/map"><i class="fas fa-angle-right"></i> 도서관 안내 </a>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="bottext">
-					<h5>Contact</h5>
-					<div class="bottextsize">
-						<i class="fas fa-map-marker-alt"></i> 경남 창원시 마산동 12-3<br> <i class="fas fa-phone-alt"></i> 055-123-1234 <br> <i class="fas fa-envelope"></i> it@naver.com <br>
-					</div>
-					<div class="conticon">
-						<a href=""><i class="fab fa-twitter fa-lg"></i></a> <a href=""><i class="fab fa-facebook-f fa-lg"></i></a> <a href=""><i class="fab fa-youtube fa-lg"></i></a> <a href=""><i class="fab fa-linkedin-in fa-lg"></i></a>
-					</div>
-					<div class="conticon">
-							<li>
-                                    <a id="kakao-link-btn" href="javascript:sendLink()">
-                                     <img src="/images/kakaotalk_sharing_btn_small.png" /></img>
-                                     </a>
-                            </li>
-                    </div>
-				</div>
-			</div>
-			<hr>
-			<div class="end">
-				<div class="endd">
-					<div class="endtext">
-						<div class="enda">
-							<p>
-								© Your Site Name, All Right Reserved. Designed By HTML Codex <br> <br>
-							<p>Distributed By ThemeWagon
-						</div>
-						<div class="endb">
-							<div class="endmenu">
-								<li><a href="">Home</a></li>
-								<li><a href="">Cookies</a></li>
-								<li><a href="">Help</a></li>
-								<li><a href="">FAQs</a></li>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="#" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <i class="fas fa-book-open fa-2x" width="30" height="24"></i>
+      </a>
+      <span class="mb-3 mb-md-0 text-muted">&copy; 2022 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+      <li class="ms-3"><a class="text-muted" id="kakao-link-btn" href="javascript:sendLink()"><img src="/images/kakaotalk_sharing_btn_small.png"/></img></a></li>
+    </ul>
+  </footer>
+</div>

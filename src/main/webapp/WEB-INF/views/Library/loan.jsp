@@ -20,6 +20,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="/js/loading.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link href="http://localhost/css/style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
@@ -30,9 +31,6 @@ String sessionId = (String) session.getAttribute("sessionId");
 	<jsp:include page="./menu.jsp" />
 
 	<section id="mid">
-		<div class="banner">
-			<img src="/images/teachers_background.jpg" alt="">
-		</div>
 		<div class="contents">
 			<div class="ct1">
 				<h1>대여 목록</h1>

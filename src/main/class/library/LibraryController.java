@@ -292,12 +292,12 @@ public class LibraryController {
 	}
 
 	// 변경페이지 데이터 조회
-	@PostMapping("/edit")
-	public String edit(@RequestParam String id, Model m) throws Exception {
+	@GetMapping("/edit")
+	public String edit(@SessionAttribute String sessionId, Model m) throws Exception {
 		Login g = null;
 
 		try {
-			g = daoG.check(id);
+			g = daoG.check(sessionId);
 
 			// 번거롭지만 일단 ㄱ
 			String[] brith = g.getBirth().split("/"); // 생년월일 나누기

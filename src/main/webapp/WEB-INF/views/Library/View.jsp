@@ -109,9 +109,6 @@ String sessionId = (String) session.getAttribute("sessionId");
 	</script>
 
 	<section id="mid">
-		<div class="banner">
-			<img src="/images/teachers_background.jpg" alt="">
-		</div>
 	</section>
 
 	<div class="container w-75 mt-5 mx-auto">

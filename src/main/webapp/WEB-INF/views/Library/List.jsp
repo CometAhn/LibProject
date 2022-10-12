@@ -16,8 +16,9 @@
 <script src="/js/loading.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link href="http://localhost/css/style.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
 <title>도서 목록</title>
 </head>
@@ -91,58 +92,74 @@ int i = (pagenum * 5) - 4;
 	%>
 	<!-- 상단 메뉴 -->
 	<jsp:include page="./menu.jsp" />
+
 	<!-- 첫번째 섹션 -->
-	<section id="mid">
-		<div class="banner">
-			<img src="/images/teachers_background.jpg" alt="">
-		</div>
-		<div class="contents">
-			<div class="ct1">
-				<h1>도서 목록</h1>
-			</div>
-			<!-- 에러 출력부 -->
-			<c:if test="${error != null }">
-				<div class="alert alert-danger alert-dismissible fade show mt-3">
-					<center>
-						<button type="button" class="btn-close" data-bs-dismiss="alert">${error}</button>
-					</center>
-				</div>
-			</c:if>
-			<%
-			session.removeAttribute("error");
-			%>
-			<div class="booklist">
-				<c:forEach var="book" items="${booklist}" varStatus="status" begin="${spage}" end="${epage}" >
-					<c:if test="${book.stock!=0 }">
-						<div class="booklist_img">
-				            <a href="getbook/${book.bid}">
-								<img src="${book.bookCover}" alt="">
-								<h3>${book.title}</h3>
-								<h4>${book.writer}</h4>
-								<br>
-								<p>재고 수 : ${book.stock}</p>
-					        </a>
-							<% if (admin == true) { %>
-						        <a href="/Lib/delete/${book.bid}" class="btn btn-info">삭제</a>
-						    <% } %>
-						</div>
-					</c:if>
-					<c:if test="${book.stock==0 }">
-						<div class="booklist_img">
-						    <a onclick="nobook()">
-								<img src="${book.bookCover}" alt="">
-								<h3>${book.title}</h3>
-								<h4>${book.writer}</h4>
-								<br>
-								<p>(재고 없음)</p>
-						    </a>
-							<% if (admin == true) { %>
-						        <a href="/Lib/delete/${book.bid}" class="btn btn-info">삭제</a>
-						    <% } %>
-						</div>
-					</c:if>
-				</c:forEach>
-			</div>
+<main>
+  <div class="ct1">
+    <h1>도서 목록</h1>
+  </div>
+  <!-- 에러 출력부 -->
+  <c:if test="${error != null }">
+    <div class="alert alert-danger alert-dismissible fade show mt-3">
+      <center>
+        <button type="button" class="btn-close" data-bs-dismiss="alert">${error}</button>
+      </center>
+    </div>
+  </c:if>
+<%
+session.removeAttribute("error");
+%>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        <c:forEach var="book" items="${booklist}" varStatus="status" begin="${spage}" end="${epage}" >
+          <c:if test="${book.stock!=0 }">
+          <div class="col">
+            <div class="card shadow-sm">
+              <a href="getbook/${book.bid}"><img src="${book.bookCover}" alt="" width="100%" height="225"></a>
+              <div class="card-body">
+                <p class="card-text">${book.title}</p>
+                <p class="card-text">${book.writer}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="getbook/${book.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+                    <% if (admin == true) { %>
+                      <a href="/Lib/delete/${book.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">delete</button></a>
+                    <% } %>
+                  </div>
+                  <small class="text-muted">재고 : ${book.stock}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          </c:if>
+          <c:if test="${book.stock==0 }">
+          <div class="col">
+            <div class="card shadow-sm">
+              <a href="getbook/${book.bid}"><img src="${book.bookCover}" alt="" width="100%" height="225"></a>
+              <div class="card-body">
+                <p class="card-text">${book.title}</p>
+                <p class="card-text">${book.writer}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="getbook/${book.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+                    <% if (admin == true) { %>
+                      <a href="/Lib/delete/${book.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">delete</button></a>
+                    <% } %>
+                  </div>
+                  <small class="text-muted">(재고 없음)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          </c:if>
+        </c:forEach>
+
+      </div>
+    </div>
+
 			<div class="booklist_search">
 				<c:set var="pagenum" value="<%=pagenum%>" />
 				<c:forEach var="i" begin="1" end="<%=total_page%>">
@@ -176,7 +193,9 @@ int i = (pagenum * 5) - 4;
 				</form>
 			</div>
 		</div>
-	</section>
+</main>
+
+
 	<%-- 등록하는거. 안 꾸밈! --%>
 	<%
 	if (admin == true) {
@@ -207,6 +226,7 @@ int i = (pagenum * 5) - 4;
 	<%
 	}
 	%>
+
 	<jsp:include page="./footer.jsp" />
 </body>
 </html>

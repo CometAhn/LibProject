@@ -12,14 +12,16 @@
 
       gtag('config', 'G-1N3FJ1ETYL');
     </script>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script src="/js/loading.js"></script>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
-<link href="http://localhost/css/style.css" rel="stylesheet">
 <title>Home</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link href="http://localhost/css/style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="/js/loading.js"></script>
 </head>
 <body>
 <div id="loading"><img id="loading-image" src="/images/loading.gif" alt="Loading..." /></div>
@@ -31,43 +33,38 @@
 <%-- 상단 내비게이션 --%>
 <%@ include file="./menu.jsp"%>
 <!-- 첫번째 섹션 -->
-<section id="mid">
-	<div class="banner">
-			<img src="/images/teachers_background.jpg" alt="">
-	</div>
-	<div class="contents">
-		<h1>환영 합니다</h1>
-		<br> <br>
-		<h2>이달의 추천 도서</h2>
-		<br>
-		<div class="booklist">
-			<c:forEach var="book" items="${booklist}" varStatus="status">
-				<c:if test="${book.library.stock!=0 }">
-					<a href="getbook/${book.library.bid}">
-						<div class="booklist_img">
-							<img src="${book.library.bookCover}" alt="">
-							<h3>${book.library.title}</h3>
-							<h4>${book.library.writer}</h4>
-							<br>
-							<p>재고 수 : ${book.library.stock}</p>
-						</div>
-					</a>
-				</c:if>
-				<c:if test="${book.library.stock==0 }">
-					<a onclick="nobook()">
-						<div class="booklist_img">
-							<img src="${book.library.bookCover}" alt="">
-							<h3>${book.library.title}</h3>
-							<h4>${book.library.writer}</h4>
-							<br>
-							<p>(재고 없음)</p>
-						</div>
-					</a>
-				</c:if>
-			</c:forEach>
-		</div>
-	</div>
-</section>
+<main>
+  <h1>환영 합니다</h1>
+  <br> <br>
+  <h2>이달의 추천 도서</h2>
+  <br>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        <c:forEach var="book" items="${booklist}" varStatus="status">
+          <div class="col">
+            <div class="card shadow-sm">
+              <a href="getbook/${book.library.bid}"><img src="${book.library.bookCover}" alt="" width="100%" height="225"></a>
+              <div class="card-body">
+                <p class="card-text">${book.library.title}</p>
+                <p class="card-text">${book.library.writer}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="getbook/${book.library.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+                  </div>
+                  <small class="text-muted">재고 : ${book.library.stock}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </c:forEach>
+
+      </div>
+    </div>
+  </div>
+</main>
 <br>
 <%-- footer --%>
 <jsp:include page="./footer.jsp" />
