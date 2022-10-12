@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS review(
    contents VARCHAR(20),
    date VARCHAR(20),
    score int,
+   likes int,
    PRIMARY KEY (id)
 )default CHARSET=utf8;
 

@@ -41,7 +41,10 @@ public class Login {
 	private List<Loan> loanList;
 	private int reviewCount;
 	private int loanCount;
+	private int likesCount;
 	private String emailkey;
 	private boolean checked;
 	private boolean temppw;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "login")
+	private List<ReviewLikes> reviewLikesList;
 }

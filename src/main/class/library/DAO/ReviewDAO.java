@@ -49,6 +49,7 @@ public class ReviewDAO {
 		re.setContents(r.getContents());
 		re.setScore(r.getScore());
 		re.setDate(sdate);
+		re.setLikes(0);
 
 		Review newreview = reviewRepository.save(re);
 	}
@@ -85,7 +86,7 @@ public class ReviewDAO {
 	}
 
 	// 리뷰 아이디 값으로 조회
-	public Review getBookByid(int id) throws SQLException {
+	public Review getBookByLoanid(int id) throws SQLException {
 		return reviewRepository.findByLoanId(id);
 	}
 
@@ -99,4 +100,13 @@ public class ReviewDAO {
 		Loan newloan = loanRepository.save(loan);
 	}
 
+	// 리뷰 id로 조회
+	public Review getReviewByid(int id) throws SQLException {
+		return reviewRepository.findById(id);
+	}
+
+	// 좋아요 누른 리뷰 업데이트
+	public void updatelikes(Review r) throws Exception {
+		Review update = reviewRepository.save(r);
+	}
 }

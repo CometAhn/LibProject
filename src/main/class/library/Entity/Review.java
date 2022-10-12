@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +28,7 @@ public class Review {
 	private String contents;
 	private String date;
 	private int score;
+	private int likes;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "review")
+	private List<ReviewLikes> reviewLikesList;
 }

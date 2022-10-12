@@ -91,6 +91,35 @@ String sessionId = (String) session.getAttribute("sessionId");
 					</div>
 				</c:forEach>
 			</div>
+			<div class="ct1">
+				<h1>리뷰 추천 TOP 3</h1>
+			</div>
+			<div class="cartlist">
+				<div class="cartlist_info">
+					<div class="cartlist_abc">
+						<p>순위</p>
+					</div>
+					<div class="cartlist_abc">
+						<p>아이디(이름)</p>
+					</div>
+					<div class="cartlist_abc">
+						<p>받은 추천 수</p>
+					</div>
+				</div>
+				<c:forEach var="LlC" items="${LlClist}" varStatus="status">
+					<div class="cartlist_a">
+						<div class="cartlist_abc">
+							<p>${status.count}</p>
+						</div>
+						<div class="cartlist_abc">
+							<p>${LlC.lid}(${LlC.name})</p>
+						</div>
+						<div class="cartlist_abc">
+							<p>${LlC.likesCount}</p>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</section>
 	<jsp:include page="./footer.jsp" />

@@ -33,6 +33,7 @@ public class LoginDAO {
 		g.setRegistDay(sdate);
 		g.setReviewCount(0);
 		g.setLoanCount(0);
+		g.setLikesCount(0);
 
 		Login newlogin = loginRepository.save(g);
 	}
@@ -161,12 +162,25 @@ public class LoginDAO {
 		Login newlogin = loginRepository.save(login);
 	}
 
+	// 좋아요 카운트 하나 늘리자
+	// todo : 필요한가?
+	public void upliescount(String id) throws Exception {
+		Login login = loginRepository.findByLid(id);
+
+		login.setLoanCount(login.getLoanCount() + 1);
+		Login newlogin = loginRepository.save(login);
+	}
+
 	public List<Login> reviewrank() throws Exception {
 		return loginRepository.findTop3ByOrderByReviewCountDesc();
 	}
 
 	public List<Login> loanrank() throws Exception {
 		return loginRepository.findTop3ByOrderByLoanCountDesc();
+	}
+
+	public List<Login> likesrank() throws Exception {
+		return loginRepository.findTop3ByOrderByLikesCountDesc();
 	}
 
 	public Login findtoken(String token) throws Exception {

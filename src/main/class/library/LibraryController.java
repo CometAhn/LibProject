@@ -35,6 +35,7 @@ public class LibraryController {
 	final ReviewDAO daoR;
 	final RecommendDAO daoRc;
 	final LoanDAO daoL;
+	final ReviewLikesDAO daoRl;
 
 	@Autowired
 	KaKaoService ks;
@@ -46,13 +47,14 @@ public class LibraryController {
 	Encrypt enc;
 
 	@Autowired
-	public LibraryController(LibraryDAO dao, LoginDAO daoG, CartDAO daoC, ReviewDAO daoR, RecommendDAO daoRc, LoanDAO daoL) {
+	public LibraryController(LibraryDAO dao, LoginDAO daoG, CartDAO daoC, ReviewDAO daoR, RecommendDAO daoRc, LoanDAO daoL, ReviewLikesDAO daoRl) {
 		this.dao = dao;
 		this.daoG = daoG;
 		this.daoC = daoC;
 		this.daoR = daoR;
 		this.daoRc = daoRc;
 		this.daoL = daoL;
+		this.daoRl = daoRl;
 	}
 
 	String controller = "Library/Control";
@@ -134,6 +136,7 @@ public class LibraryController {
 
 			List<Review> list = daoR.getReview(id);
 			m.addAttribute("reviewlist", list);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.warn("책 정보를 가져오는 과정에서 문제 발생!!");
@@ -893,7 +896,7 @@ public class LibraryController {
 	@GetMapping("/delreview/{id}")
 	public String delreview(@PathVariable int id, Model m, @SessionAttribute String sessionId) {
 		try {
-			Review n = daoR.getBookByid(id);
+			Review n = daoR.getBookByLoanid(id);
 			// 지워도 됨. 해결함.
 			//System.out.println("bid 값 맞니? " + n.getLibrary().getBid());
 			m.addAttribute("bid", n.getLibrary().getBid());
@@ -950,9 +953,11 @@ public class LibraryController {
 	public String rank(Model m) {
 		List<Login> RClist;
 		List<Login> LClist;
+		List<Login> LlClist;
 		try {
 			RClist = daoG.reviewrank();
 			LClist = daoG.loanrank();
+			LlClist = daoG.likesrank();
 
 			for (Login login : RClist) {
 
@@ -1004,6 +1009,7 @@ public class LibraryController {
 
 			m.addAttribute("RClist", RClist);
 			m.addAttribute("LClist", LClist);
+			m.addAttribute("LlClist", LlClist);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("추천 책 출력 과정에서 문제 발생!!");
@@ -1240,5 +1246,67 @@ public class LibraryController {
 			m.addAttribute("msg", "2");
 			return controller;
 		}
+	}
+
+	@GetMapping("/reviewlikes/{id}/{rid}")
+	public String reviewlikes(@PathVariable int id, @PathVariable int rid, @SessionAttribute String sessionId, Model m) {
+		try {
+			// 다시 보여줘야할 책
+			Library n = dao.getBook(id);
+			m.addAttribute("book", n);
+
+			// 다시 보여줘야할 리뷰들
+			List<Review> list = daoR.getReview(id);
+			m.addAttribute("reviewlist", list);
+
+			// 좋아요 누른 적 있는지 조회.
+			Review r = daoR.getReviewByid(rid);
+			ReviewLikes rlt = daoRl.checklid(r.getId());
+			// 등록되어 있지않다면 등록 겸 추천수도 ㄱ\
+			if (rlt == null) {
+				System.out.println("널 값이니까 추가");
+				// 좋아요 누른 리뷰 좋아요 카운트 추가.
+				r.setLikes(r.getLikes() + 1);
+				daoR.updatelikes(r);
+
+				// 리뷰 작성완료 된 거 기록용 db입력
+				ReviewLikes rl = new ReviewLikes();
+				Login l = new Login();
+				l.setLid(sessionId);
+				rl.setLogin(l);
+				rl.setReview(r);
+				daoRl.addReviewLikes(rl);
+
+				// 로그인 테이블에 likes 카운트 올리기
+				Login lg = daoG.check(r.getLogin().getLid());
+				lg.setLikesCount(lg.getLikesCount() + 1);
+				daoG.update(lg);
+				// 메시지 : 리뷰를 추천했습니다.
+				m.addAttribute("msg", "5");
+			} else { // 등록되어 있다면 삭제하고 추천수 내리기
+
+				System.out.println("등록되어 있으니 삭제");
+				r.setLikes(r.getLikes() - 1);
+				daoR.updatelikes(r);
+
+				// 리뷰 좋아요 누른 기록 삭제
+				daoRl.delReviewlikes(rlt);
+
+				// 로그인 테이블에 likes 카운트 내리기
+				Login lg = daoG.check(r.getLogin().getLid());
+				lg.setLikesCount(lg.getLikesCount() - 1);
+				daoG.update(lg);
+				// 메시지 : 리뷰 추천을 취소했습니다.
+				m.addAttribute("msg", "6");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.warn("책 정보를 가져오는 과정에서 문제 발생!!");
+			m.addAttribute("error", "책 정보를 정상적으로 가져오지 못했습니다!!");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return "Library/View";
 	}
 }

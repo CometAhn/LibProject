@@ -24,4 +24,6 @@ public interface LoginRepository extends JpaRepository<Login, String> {
 	List<Login> findTop3ByOrderByReviewCountDesc();
 
 	List<Login> findTop3ByOrderByLoanCountDesc();
+
+	List<Login> findTop3ByOrderByLikesCountDesc();
 }

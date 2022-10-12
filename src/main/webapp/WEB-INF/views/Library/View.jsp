@@ -67,8 +67,20 @@ String sessionId = (String) session.getAttribute("sessionId");
 		location.href = "/Lib/getbook/${bid}";
 	</script>
 	<%
-	}
-	}
+	} else if (msg.equals("5")) {
+      	%>
+      	<script>
+      		alert('리뷰를 추천했습니다.');
+      	</script>
+      	<%
+	} else if (msg.equals("6")) {
+      	%>
+      	<script>
+      		alert('리뷰 추천을 취소했습니다.');
+      	</script>
+      	<%
+    }
+    }
 	%>
 
 
@@ -176,6 +188,26 @@ String sessionId = (String) session.getAttribute("sessionId");
 							</div>
 						</div>
 					</c:if>
+				    <c:choose>
+					    <c:when test="${empty sessionId}">
+					        <a href="#" onclick="loginfirst()" class="btn btn-light">${review.likes} <i class="far fa-thumbs-up"></i></a>
+					    </c:when>
+					    <c:otherwise>
+                            <c:if test="${!empty review.reviewLikesList}">
+		                    <c:forEach var="likes" items="${review.reviewLikesList}" varStatus="status">
+                                <c:if test="${likes.login.lid == sessionId}">
+					                <a href="/Lib/reviewlikes/${review.library.bid}/${review.id}" class="btn btn-primary">${review.likes} <i class="far fa-thumbs-up"></i></a>
+					            </c:if>
+                                <c:if test="${likes.login.lid != sessionId}">
+					                <a href="/Lib/reviewlikes/${review.library.bid}/${review.id}" class="btn btn-light">${review.likes} <i class="far fa-thumbs-up"></i></a>
+					            </c:if>
+		                    </c:forEach>
+    					    </c:if>
+                            <c:if test="${empty review.reviewLikesList}">
+					                <a href="/Lib/reviewlikes/${review.library.bid}/${review.id}" class="btn btn-light">${review.likes} <i class="far fa-thumbs-up"></i></a>
+    					    </c:if>
+					    </c:otherwise>
+				    </c:choose>
 				</div>
 			</div>
 		</c:forEach>

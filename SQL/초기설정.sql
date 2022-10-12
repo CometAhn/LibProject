@@ -55,6 +55,7 @@ create table Login (
     overdue varchar(20), 
     review_count int not null default 0,
     loan_count int not null default 0,
+    likes_count int not null default 0,
     emailkey varchar(10),
     checked boolean not null default 0,
     temppw boolean default 0,
@@ -77,6 +78,14 @@ CREATE TABLE IF NOT EXISTS review(
    contents VARCHAR(20),
    date VARCHAR(20),
    score int,
+   likes int,
+   PRIMARY KEY (id)
+)default CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS reviewlikes(
+   id int NOT NULL auto_increment,
+   review_id int not null,
+   login_lid VARCHAR(10) NOT NULL,
    PRIMARY KEY (id)
 )default CHARSET=utf8;
 
@@ -96,6 +105,10 @@ alter table recommend add foreign key(library_bid) references booklist( bid )on 
 alter table review add foreign key(login_lid) references login( lid )on delete cascade;
 alter table review add foreign key(library_bid) references booklist( bid )on delete cascade;
 alter table review add foreign key(loan_id) references loan( id )on delete cascade;
+
+-- reviewlikes fk
+alter table reviewlikes add foreign key(review_id) references review( id )on delete cascade;
+alter table reviewlikes add foreign key(login_lid) references login( lid )on delete cascade;
 
 # create data
 -- book
