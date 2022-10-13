@@ -107,11 +107,11 @@ String sessionId = (String) session.getAttribute("sessionId");
 								<td>${book.startDate }~${book.endDate }</td>
 								<td><c:choose>
 										<c:when test="${book.reviewed == false}">
-											<button class="btn btn-outline-info mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addForm${book.library.bid}" aria-expanded="false" aria-controls="addForm">리뷰 등록</button></td>
+											<button class="btn btn-outline-info mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addForm${status.count}" aria-expanded="false" aria-controls="addForm">리뷰 등록</button></td>
 							</tr>
 							<tr>
 								<td colspan="4" style="border:none;">
-									<div class="collapse" id="addForm${book.library.bid}">
+									<div class="collapse" id="addForm${status.count}">
 										<div class="card card-body">
 											<form action="/Lib/review" method="post" enctype="multipart/form-data" autocomplete="off">
 												<input type="text" name="login.lid" class="form-control" value="<%=sessionId%>" hidden> <input type="text" name="library.bid" class="form-control" value="${book.library.bid}" hidden> <input type="text" name="loan.id" class="form-control" value="${book.id}" hidden> <label class="form-label"> 제목 </label> <input type="text" name="title" class="form-control"> <label class="form-label">리뷰 내용</label>

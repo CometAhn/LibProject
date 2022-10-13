@@ -34,8 +34,7 @@
 
 <main>
   <div class="container py-4">
-
-    <div id="carouselExampleControls" class="carousel slide p-5 mb-4 bg-light rounded-3" data-bs-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide p-5 mb-4 text-bg-dark rounded-3 bg-opacity-50" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="container-fluid py-1">
