@@ -115,21 +115,21 @@ String msg = (String) request.getAttribute("msg");
 						<input name="lid" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}">
 						<h3>비밀번호</h3>
 						<p>
-							<input name="password" type="password" class="form-control" placeholder="password" value="" minlength="6" maxlength="16">
+							<input name="password" type="password" class="form-control" placeholder="password" value="" minlength="6" maxlength="16" required>
 						</p>
 						<h3>비밀번호 확인</h3>
 						<p>
-							<input name="password_confirm" type="password" class="form-control" placeholder="password_confirm">
+							<input name="password_confirm" type="password" class="form-control" placeholder="password_confirm" required>
 						</p>
 						<h3>이름</h3>
 						<p>
-							<input name="name" type="text" class="form-control" placeholder="name" value="${login.name}">
+							<input name="name" type="text" class="form-control" placeholder="name" value="${login.name}" minlength="2" required>
 						</p>
 						<h3>생년월일</h3>
 				<div class="row g-3">
 					<div class="col-sm-4">
 						<p>
-							<input type="text" class="form-control" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}">
+							<input type="text" class="form-control" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}" required>
 					</div>
 					<div class="col-sm-4">
 					<select name="birthmm" id="birthmm" class="form-select">
@@ -149,7 +149,7 @@ String msg = (String) request.getAttribute("msg");
 							</select>
 					</div>
 					<div class="col-sm-4">
-					<input type="text" class="form-control" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}">
+					<input type="text" class="form-control" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}" required>
 						</p>
 					</div>
 						<h3>성별</h3>
@@ -159,12 +159,12 @@ String msg = (String) request.getAttribute("msg");
 						</p>
 						<h3>연락처</h3>
 						<p>
-							<input name="phone" type="text" class="form-control" placeholder="01000000000" value="${login.phone}" minlength="11" maxlength="11">
+							<input name="phone" type="tel" class="form-control" placeholder="01000000000" value="${login.phone}" minlength="11" maxlength="11" required>
 						</p>
 
 						<h3>E-mail</h3>
 						<p>
-							<input type="email" name="email" class="form-control" value="${login.email}">
+							<input type="email" name="email" class="form-control" value="${login.email}" required>
 						</p>
 						<h3>주소</h3>
 						<p>

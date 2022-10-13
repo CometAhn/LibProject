@@ -160,26 +160,26 @@
 				<input type="text" class="form-control" placeholder="token" name="token" value="${token}" hidden>
 				<h3>아이디</h3>
 				<p>
-					<input name="lid" type="text" class="form-control" placeholder="id" minlength="3">
+					<input name="lid" type="text" class="form-control" placeholder="id" minlength="3" required>
 				</p>
 				<h3>비밀번호</h3>
 				<p>
-					<input name="password" type="password" class="form-control" placeholder="password">
+					<input name="password" type="password" class="form-control" placeholder="password" minlength="6" maxlength="16" required>
 				</p>
 				<h3>비밀번호 확인</h3>
 				<p>
-					<input name="password_confirm" type="password" class="form-control" placeholder="password confirm" minlength="6" maxlength="16">
+					<input name="password_confirm" type="password" class="form-control" placeholder="password confirm" minlength="6" maxlength="16" required>
 				</p>
 				<h3>이름</h3>
 				<p>
-					<input name="name" type="text" class="form-control" placeholder="name" minlength="2">
+					<input name="name" type="text" class="form-control" placeholder="name" minlength="2" required>
 				</p>
 				<h3>생년월일</h3>
 
 				<div class="row g-3">
 					<div class="col-sm-4">
 						<p>
-							<input type="text" class="form-control" name="birthyy" maxlength="4" placeholder="년(4자)" size="6">
+							<input type="text" class="form-control" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" required>
 					</div>
 					<div class="col-sm-4">
 						<select name="birthmm" class="form-select">
@@ -199,7 +199,7 @@
 						</select>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" name="birthdd" maxlength="2" placeholder="일" size="4">
+						<input type="text" class="form-control" name="birthdd" maxlength="2" placeholder="일" size="4" required>
 						</p>
 					</div>
 				</div>
@@ -209,11 +209,11 @@
 				</p>
 				<h3>연락처</h3>
 				<p>
-					<input name="phone" type="number" class="form-control" placeholder="01000000000" minlength="11" maxlength="11">
+					<input name="phone" type="tel" class="form-control" placeholder="01000000000" minlength="11" maxlength="11" required>
 				</p>
 				<h3>E-mail</h3>
 				<p>
-					<input type="email" name="email" class="form-control" placeholder="name@naver.com">
+					<input type="email" name="email" class="form-control" placeholder="name@naver.com" required>
 				</p>
 				<h3>주소</h3>
 				<p>
