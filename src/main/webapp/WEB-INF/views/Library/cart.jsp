@@ -88,7 +88,7 @@ int i = 0;
 				<c:forEach var="book" items="${booklist}" varStatus="status">
 					<tr>
 						<th scope="row">${status.count}</th>
-						<td>${book.library.title}(${book.library.writer })</td>
+						<td><a href="getbook/${book.library.bid}">${book.library.title}(${book.library.writer })</a></td>
 						<td>${book.library.stock }</td>
 						<td><a href="/Lib/deleteCart?bid=${book.library.bid}&id=<%=sessionId%>"> <span class="badge bg-secondary">&times;</span></a></td>
 					</tr>

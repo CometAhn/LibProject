@@ -43,23 +43,45 @@
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-        <c:forEach var="book" items="${booklist}" varStatus="status">
-          <div class="col">
-            <div class="card shadow-sm">
-              <a href="getbook/${book.library.bid}"><img src="${book.library.bookCover}" alt="" width="100%" height="225"></a>
-              <div class="card-body">
-                <p class="card-text">${book.library.title}</p>
-                <p class="card-text">${book.library.writer}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a href="getbook/${book.library.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
-                  </div>
-                  <small class="text-muted">재고 : ${book.library.stock}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </c:forEach>
+
+
+
+					        <c:forEach var="book" items="${booklist}" varStatus="status">
+						<c:if test="${book.library.stock!=0 }">
+							<div class="col">
+								<div class="card shadow-sm">
+									<a href="getbook/${book.library.bid}"><img src="${book.library.bookCover}" alt="" width="100%" height="225"></a>
+									<div class="card-body">
+										<p class="card-text">${book.library.title}</p>
+										<p class="card-text">${book.library.writer}</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="btn-group">
+												<a href="getbook/${book.library.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+											</div>
+											<small class="text-muted">재고 : ${book.library.stock}</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${book.library.stock==0 }">
+							<div class="col">
+								<div class="card shadow-sm">
+									<a href="#" onclick="nobook()"><img src="${book.library.bookCover}" alt="" width="100%" height="225"></a>
+									<div class="card-body">
+										<p class="card-text">${book.library.title}</p>
+										<p class="card-text">${book.library.writer}</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="btn-group">
+												<a href="#" onclick="nobook()"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+											</div>
+											<small class="text-muted">(재고 없음)</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 
       </div>
     </div>

@@ -146,13 +146,13 @@
 						<c:if test="${book.stock==0 }">
 							<div class="col">
 								<div class="card shadow-sm">
-									<a href="getbook/${book.bid}"><img src="${book.bookCover}" alt="" width="100%" height="225"></a>
+									<a href="#" onclick="nobook()"><img src="${book.bookCover}" alt="" width="100%" height="225"></a>
 									<div class="card-body">
 										<p class="card-text">${book.title}</p>
 										<p class="card-text">${book.writer}</p>
 										<div class="d-flex justify-content-between align-items-center">
 											<div class="btn-group">
-												<a href="getbook/${book.bid}"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
+												<a href="#" onclick="nobook()"><button type="button" class="btn btn-sm btn-outline-secondary">view</button></a>
 												<%
 												if (admin == true) {
 												%>

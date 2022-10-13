@@ -129,10 +129,10 @@ String msg = (String) request.getAttribute("msg");
 				<div class="row g-3">
 					<div class="col-sm-4">
 						<p>
-							<input type="text" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}">
+							<input type="text" class="form-control" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" value="${birthyy}">
 					</div>
 					<div class="col-sm-4">
-					<select name="birthmm" id="birthmm">
+					<select name="birthmm" id="birthmm" class="form-select">
 								<option value="">월</option>
 								<option value="01">1</option>
 								<option value="02">2</option>
@@ -149,7 +149,7 @@ String msg = (String) request.getAttribute("msg");
 							</select>
 					</div>
 					<div class="col-sm-4">
-					<input type="text" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}">
+					<input type="text" class="form-control" name="birthdd" maxlength="2" placeholder="일" size="4" value="${birthdd}">
 						</p>
 					</div>
 						<h3>성별</h3>
