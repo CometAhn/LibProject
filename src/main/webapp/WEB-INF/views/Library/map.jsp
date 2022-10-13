@@ -33,37 +33,35 @@
 	<jsp:include page="./menu.jsp" />
 
 <main>
-  <div class="container py-4">
-    <div id="carouselExampleControls" class="carousel slide p-5 mb-4 text-bg-dark rounded-3 bg-opacity-50" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="container-fluid py-1">
-            <h1 class="display-5 fw-bold mb-2">1. 환영합니다.</h1>
-            <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
-          </div>
+      <div class="container py-4">
+        <div id="carouselExampleControls" class="carousel slide p-5 mb-4 text-bg-dark rounded-3 bg-opacity-50" style="height: 220px;" data-bs-ride="carousel">
+            <div class="carousel-item active">
+              <div class="container-fluid py-1">
+                <h1 class="display-5 fw-bold mb-2">1. 환영합니다.</h1>
+                <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="container-fluid py-1">
+                <h1 class="display-5 fw-bold mb-2">2. 환영합니다.</h1>
+                <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="container-fluid py-1">
+                <h1 class="display-5 fw-bold mb-2">3. 환영합니다.</h1>
+                <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
+              </div>
+            </div>
+          <button class="carousel-control-prev" style="width: 5%;" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" style="width: 5%;"type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
-        <div class="carousel-item">
-          <div class="container-fluid py-1">
-            <h1 class="display-5 fw-bold mb-2">2. 환영합니다.</h1>
-            <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="container-fluid py-1">
-            <h1 class="display-5 fw-bold mb-2">3. 환영합니다.</h1>
-            <p class="col-md-10 fs-4">도서관 웹 소개페이지입니다. This is the library web introduction page.</p>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
 
 
 
