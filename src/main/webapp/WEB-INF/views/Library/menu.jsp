@@ -35,7 +35,7 @@ String name = (String) session.getAttribute("name");
 			</c:when>
 			<c:otherwise>
               <li><a href="/Lib/listcart?id=<%=sessionId%>" class="nav-link px-2 text-dark">장바구니</a></li>
-              <li><a href="/Lib/listcart?id=<%=sessionId%>" class="nav-link px-2 text-dark">대여 목록</a></li>
+              <li><a href="/Lib/listloan?id=<%=sessionId%>" class="nav-link px-2 text-dark">대여 목록</a></li>
 			</c:otherwise>
 		  </c:choose>
           <li><a href="/Lib/map" class="nav-link px-2 text-dark">도서관 안내</a></li>
@@ -51,7 +51,7 @@ String name = (String) session.getAttribute("name");
 		    <c:otherwise>
 	          <div class="dropdown text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="/images/pro_pic.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                  <img src="/images/pro_pic.png" alt="mdo" width="32" height="32" class="rounded-circle"> ${sessionId}
                 </a>
                 <ul class="dropdown-menu text-small">
                   <li><a class="dropdown-item" href="/Lib/edit">회원수정</a></li>

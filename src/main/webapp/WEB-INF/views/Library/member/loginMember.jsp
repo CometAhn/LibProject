@@ -41,7 +41,10 @@
 
 	<jsp:include page="../menu.jsp" />
 
-	<main class="form-signin w-100 m-auto">
+	<div class="justify-content-center d-flex justify-content-center">
+		<div class="w-25 p-3 border border-dark border-opacity-25 rounded d-flex justify-content-center">
+		<form class="form-signin" action="/Lib/login" method="post" onsubmit="return onSubmit();">
+
 		<%
 		String msg = request.getParameter("msg");
 
@@ -102,7 +105,7 @@
 			}
 		}
 		%>
-		<form class="form-signin" action="/Lib/login" method="post" onsubmit="return onSubmit();">
+		<h1 class="p-3">Login</h1>
 			<div class="form-floating">
 				<input type="text" class="form-control" placeholder="ID" name="id" value="${id}" required autofocus> <label for="floatingInput">아이디</label>
 			</div>
@@ -117,14 +120,15 @@
 			<p class="p-3">
 				<a href="/Lib/findid">아이디 </a> / <a href="/Lib/findpw">비밀번호 찾기</a>
 			</p>
-			</div>
 			<p>
 				<a class="d-flex justify-content-center" href="https://kauth.kakao.com/oauth/authorize?client_id=e6f60f053eb85f6437f9f7e99973580c&redirect_uri=http://localhost/Lib/kakao&response_type=code"><img src="/images/kakao_login_large_narrow.png" alt=""></a>
 			</p>
 			</div>
+			</div>
 		</form>
 
-	</main>
+	</div>
+	</div>
 	<jsp:include page="../footer.jsp" />
 </body>
 </html>

@@ -100,7 +100,7 @@
 	<!-- 첫번째 섹션 -->
 	<main>
 		<div class="text-center">
-			<h1>도서 목록</h1>
+			<h1 class="p-3">도서 목록</h1>
 		</div>
 		<!-- 에러 출력부 -->
 		<c:if test="${error != null }">
