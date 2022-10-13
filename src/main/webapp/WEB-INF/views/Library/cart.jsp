@@ -76,7 +76,7 @@ int i = 0;
   <h1 class="text-center p-3">장바구니</h1>
 	<div class="mx-auto w-50 p-3 border border-dark border-opacity-25 rounded d-flex justify-content-center">
 		<table class="table table-hover">
-			<thead>
+			<thead class="text-center">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">책 제목(작가)</th>
@@ -84,7 +84,7 @@ int i = 0;
 					<th scope="col">삭제</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="text-center">
 				<c:forEach var="book" items="${booklist}" varStatus="status">
 					<tr>
 						<th scope="row">${status.count}</th>

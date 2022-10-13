@@ -52,7 +52,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 						<th scope="col">반납</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="text-center">
 					<c:forEach var="book" items="${booklist}" varStatus="status">
 						<c:if test="${book.status == true}">
 							<tr>
@@ -98,7 +98,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 						<th scope="col">리뷰</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="text-center">
 					<c:forEach var="book" items="${booklist}" varStatus="status">
 						<c:if test="${book.status == false}">
 							<tr>
