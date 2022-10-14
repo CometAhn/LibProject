@@ -115,7 +115,6 @@
             <div class="d-flex justify-content-center">
 			<div class="g-recaptcha" data-sitekey="6LctdVYiAAAAANSXZSeaohuJzWh5SCH6mvjrd-o9"></div>
 			</div>
-			<br>
 			<button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
 			<p class="p-3">
 				<a href="/Lib/findid">아이디 </a> / <a href="/Lib/findpw">비밀번호 찾기</a>

@@ -36,7 +36,6 @@
 <!-- 첫번째 섹션 -->
 <main>
   <h1 class="text-center pt-3 mt-5">환영 합니다</h1>
-  <br>
   <h3 class="text-center p-3">이달의 추천 도서</h3>
 
   <div class="album py-5 bg-light">
@@ -87,7 +86,6 @@
     </div>
   </div>
 </main>
-<br>
 <%-- footer --%>
 <jsp:include page="./footer.jsp" />
 </body>

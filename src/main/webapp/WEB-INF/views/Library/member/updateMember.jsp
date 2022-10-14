@@ -174,9 +174,8 @@ String msg = (String) request.getAttribute("msg");
 						<center>
                             <div class="g-recaptcha" data-sitekey="6LctdVYiAAAAANSXZSeaohuJzWh5SCH6mvjrd-o9"></div>
                         </center>
-						<br> <input type="submit" class="btn btn-primary col-sm-3" value="회원수정 ">
+						<input type="submit" class="btn btn-primary col-sm-3" value="회원수정 ">
 					</form>
-					<br>
 					<form name="newMember1" class="form-horizontal" action="/Lib/delete" method="post">
 						<input name="id" type="text" class="form-control" placeholder="id" hidden="" value="${login.lid}"> <input type="submit" class="btn btn-danger col-sm-3" value="회원탈퇴 ">
 					</form>

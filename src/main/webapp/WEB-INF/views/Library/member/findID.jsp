@@ -47,7 +47,6 @@
 
 	<div class="justify-content-center d-flex justify-content-center">
 		<div class="w-25 p-3 border border-dark border-opacity-25 rounded d-flex justify-content-center">
-			<br>
 			<form name="newMember" class="form-signin" action="/Lib/findidd" method="post" onsubmit="return checkForm()">
 				<h1 class="pb-5">아이디 찾기</h1>
 				<%

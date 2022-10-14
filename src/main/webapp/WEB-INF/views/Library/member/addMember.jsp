@@ -221,7 +221,6 @@
 				</p>
 				<center>
 					<div class="g-recaptcha" data-sitekey="6LctdVYiAAAAANSXZSeaohuJzWh5SCH6mvjrd-o9"></div>
-					<br>
 				</center>
 
 				<p>
