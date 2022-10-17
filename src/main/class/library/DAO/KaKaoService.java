@@ -114,7 +114,6 @@ public class KaKaoService { public String getToken(String code) throws IOExcepti
 			userInfo.put("profile_image", profile_image);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

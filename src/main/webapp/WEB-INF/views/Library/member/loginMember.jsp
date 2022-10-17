@@ -75,13 +75,14 @@
 				out.println("</div>");
 			} else if (error == "1") {
 				out.println("<div class='alert alert-danger'>");
-				out.println("아이디와 비밀번호를 확인해 주세요");
+				out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
 				out.println("</div>");
 			} else if (error == "2") {
 				out.println("<div class='alert alert-danger'>");
 				out.println("탈퇴한 계정입니다.");
 				out.println("</div>");
 			} else if (error == "3") {
+                session.invalidate();
 				out.println("<div class='alert alert-success'>");
 				out.println("회원 정보가 변경되었습니다.");
 				out.println("</div>");
@@ -92,11 +93,11 @@
 				out.println("</div>");
 			} else if (error == "5") {
 				out.println("<div class='alert alert-danger'>");
-				out.println("reCAPTCHA 동의 후 다시 로그인 해주세요.");
+				out.println("reCAPTCHA 동의 후 다시 로그인해주세요.");
 				out.println("</div>");
 			} else if (error == "6") {
 				out.println("<div class='alert alert-success'>");
-				out.println("이메일로 임시 비밀번호를 전송했습니다.");
+				out.println("이메일로 임시비밀번호를 전송했습니다.");
 				out.println("</div>");
 			} else if (error == "7") {
 				out.println("<div class='alert alert-success'>");

@@ -90,7 +90,7 @@ int i = 0;
 						<th scope="row">${status.count}</th>
 						<td><a href="getbook/${book.library.bid}">${book.library.title}(${book.library.writer })</a></td>
 						<td>${book.library.stock }</td>
-						<td><a href="/Lib/deleteCart?bid=${book.library.bid}&id=<%=sessionId%>"> <span class="badge bg-secondary">&times;</span></a></td>
+						<td><a href="/Lib/deleteCart?bid=${book.library.bid}"> <span class="badge bg-secondary">&times;</span></a></td>
 					</tr>
 					<%i++;%>
 				</c:forEach>
@@ -109,7 +109,7 @@ int i = 0;
 			%><td align="right"><a href="#" class="btn btn-danger mb-5" onclick="manybooksum()">대여하기</a></td>
 			<%
 			} else {
-			%><td align="right"><a href="/Lib/loan?id=<%=sessionId%>" class="btn btn-primary mb-5" onclick="loading()">대여하기</a></td>
+			%><td align="right"><a href="/Lib/loan" class="btn btn-primary mb-5" onclick="loading()">대여하기</a></td>
 			<%
 			}
 			%>

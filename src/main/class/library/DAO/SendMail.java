@@ -46,8 +46,8 @@ public class SendMail {
 			MimeMessage msg = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(msg, true, "UTF-8");
 
-			messageHelper.setSubject("[it Lib]" + id + "님 임시 비밀번호입니다.");
-			messageHelper.setText("임시 비밀번호는 " + key + " 입니다.");
+			messageHelper.setSubject("[it Lib]" + id + "님 임시비밀번호입니다.");
+			messageHelper.setText("임시비밀번호는 " + key + " 입니다.");
 			messageHelper.setTo(email);
 			msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(email));
 			mailSender.send(msg);

@@ -69,10 +69,10 @@ String sessionId = (String) session.getAttribute("sessionId");
 								</td>
 								<td><c:choose>
 										<c:when test="${book.period > 0}">
-											<a href="/Lib/ReturnBook?bid=${book.library.bid}&id=<%=sessionId%>&period=${book.period}" onclick="loading()"> <span class="badge bg-secondary">반납하기</span></a>
+											<a href="/Lib/ReturnBook?bid=${book.library.bid}&period=${book.period}" onclick="loading()"> <span class="badge bg-secondary">반납하기</span></a>
 										</c:when>
 										<c:otherwise>
-											<a href="/Lib/ReturnBook?bid=${book.library.bid}&id=<%=sessionId%>&period=0" onclick="loading()"> <span class="badge bg-secondary">반납하기</span></a>
+											<a href="/Lib/ReturnBook?bid=${book.library.bid}&period=0" onclick="loading()"> <span class="badge bg-secondary">반납하기</span></a>
 										</c:otherwise>
 									</c:choose></td>
 							</tr>

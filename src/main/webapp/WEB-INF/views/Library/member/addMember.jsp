@@ -122,19 +122,19 @@
 		if (iderror.equals("0")) {
 	%>
 	<script>
-		alert('가입된 아이디입니다.');
+		alert('이미 사용중인 아이디입니다.');
 	</script>
 	<%
 	} else if (iderror.equals("1")) {
 	%>
 	<script>
-		alert('가입된 이메일입니다.');
+		alert('이미 사용중인 이메일입니다.');
 	</script>
 	<%
 	} else if (iderror.equals("2")) {
 	%>
 	<script>
-		alert('reCAPTCHA 동의 후 다시 시도 해주세요.');
+		alert();'reCAPTCHA 동의 후 다시 시도 해주세요.'
 	</script>
 	<%
 	}
@@ -224,7 +224,7 @@
 				</center>
 
 				<p>
-					<input type="submit" class="btn btn-primary " value="등록"> <input type="reset" class="btn btn-primary " value="취소 " onclick="reset()">
+					<input type="submit" class="btn btn-primary " value="등록"> <input type="reset" class="btn btn-primary " value="초기화" onclick="reset()">
 				</p>
 			</form>
 		</div>

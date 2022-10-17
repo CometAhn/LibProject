@@ -91,14 +91,14 @@ String sessionId = (String) session.getAttribute("sessionId");
 	<script type="text/javascript">
 		function addtocart() {
 			if (confirm("상품을 장바구니에 추가 하시겠습니까?")) {
-		    location.href = "/Lib/addcarttocart?id=<%=sessionId%>&bid=${book.bid}";
+		    location.href = "/Lib/addcarttocart?bid=${book.bid}";
 			} else {
 
 			}
 		}
 		function addtocart1() {
 			if (confirm("상품을 장바구니에 추가 하시겠습니까?")) {
-		    location.href = "/Lib/addcart?id=<%=sessionId%>&bid=${book.bid}";
+		    location.href = "/Lib/addcart?bid=${book.bid}";
 			} else {
 
 			}
@@ -123,7 +123,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 				<p class="card-text">출판사 : ${book.publisher}</p>
 				<p class="card-text">재고수 : ${book.stock}</p>
 			</div>
-			<form name="addform" action="./addcart.jsp?id=${book.bid}" method="post">
+			<form name="addform" action="" method="post">
 				<% if (sessionId != null) {
 				    %>
 				<a class="btn btn-info" onclick="addtocart()">책 대여 &raquo;</a>

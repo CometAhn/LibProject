@@ -34,8 +34,8 @@ String name = (String) session.getAttribute("name");
               <li><a href="/Lib/loginpage" class="nav-link px-2 text-dark">대여 목록</a></li>
 			</c:when>
 			<c:otherwise>
-              <li><a href="/Lib/listcart?id=<%=sessionId%>" class="nav-link px-2 text-dark">장바구니</a></li>
-              <li><a href="/Lib/listloan?id=<%=sessionId%>" class="nav-link px-2 text-dark">대여 목록</a></li>
+              <li><a href="/Lib/listcart" class="nav-link px-2 text-dark">장바구니</a></li>
+              <li><a href="/Lib/listloan" class="nav-link px-2 text-dark">대여 목록</a></li>
 			</c:otherwise>
 		  </c:choose>
           <li><a href="/Lib/map" class="nav-link px-2 text-dark">도서관 안내</a></li>

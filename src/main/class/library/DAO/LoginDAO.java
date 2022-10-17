@@ -163,7 +163,6 @@ public class LoginDAO {
 	}
 
 	// 좋아요 카운트 하나 늘리자
-	// todo : 필요한가?
 	public void upliescount(String id) throws Exception {
 		Login login = loginRepository.findByLid(id);
 

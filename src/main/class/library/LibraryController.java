@@ -2,6 +2,7 @@ package library;
 
 import library.DAO.*;
 import library.Entity.*;
+import org.hibernate.Session;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -183,40 +185,40 @@ public class LibraryController {
 	}
 	//// 책 끝
 
-	// 페이지 이동하는 기능.
-	@GetMapping("map")
+
+	@GetMapping("/map")
 	public String map() {
 		return "Library/map";
 	}
 
-	@GetMapping("loginpage")
+	@GetMapping("/loginpage")
 	public String login() {
 		return "Library/member/loginMember";
 	}
 
-	@GetMapping("register")
+	@GetMapping("/register")
 	public String register() {
 		return "Library/member/addMember";
 	}
 
-	@GetMapping("logout")
+	@GetMapping("/logout")
 	public String logout() {
 		return "Library/member/logoutMember";
 	}
 
-	@GetMapping("findid")
+	@GetMapping("/findid")
 	public String findid() {
 		return "Library/member/findID";
 	}
 
-	@GetMapping("findpw")
+	@GetMapping("/findpw")
 	public String findpw() {
 		return "Library/member/findPW";
 	}
 
 	//// 멤버 시작
 	// 회원가입
-	@PostMapping("regist")
+	@PostMapping("/regist")
 	public String regist(@ModelAttribute Login g, @RequestParam String birthyy, @RequestParam String birthmm, @RequestParam String birthdd, @RequestParam String token, Model m, HttpServletRequest req) {
 		List<Login> list;
 		List<Login> list1;
@@ -486,7 +488,7 @@ public class LibraryController {
 	// 장바구니, 책 대여 시작
 	// 장바구니 등록
 	@GetMapping("addcart")
-	public String addcart(@RequestParam String id, @RequestParam int bid, Model m) {
+	public String addcart(@SessionAttribute String sessionId, @RequestParam int bid, Model m) {
 		m.addAttribute("bid", bid);
 
 		// 장바구니 조회해서 등록된 책이라면 장바구니에 추가 x
@@ -494,8 +496,8 @@ public class LibraryController {
 		List<Cart> list = null;
 		List<Loan> list1 = null;
 		try {
-			list = daoC.getAllCart(id); // 장바구니에 있는 책
-			list1 = daoL.getnonLoanbooks(id); // 빌리고 아직 반납 안한 책
+			list = daoC.getAllCart(sessionId); // 장바구니에 있는 책
+			list1 = daoL.getnonLoanbooks(sessionId); // 빌리고 아직 반납 안한 책
 
 			for (int i = 0; i < list.size(); i++) {
 				Cart check = list.get(i);
@@ -518,7 +520,7 @@ public class LibraryController {
 					return "Library/View";
 				}
 			}
-			daoC.addCart(id, bid);
+			daoC.addCart(sessionId, bid);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -533,7 +535,7 @@ public class LibraryController {
 
 	// 장바구니 등록 후 장바구니 페이지 이동(리턴 값만 다르게)
 	@GetMapping("addcarttocart")
-	public String addcarttocart(@RequestParam String id, @RequestParam int bid, Model m) {
+	public String addcarttocart(@SessionAttribute String sessionId, @RequestParam int bid, Model m) {
 		m.addAttribute("bid", bid);
 		int count;
 
@@ -544,8 +546,8 @@ public class LibraryController {
 		List<Loan> list1 = null;
 		List<Cart> list2 = null;
 		try {
-			list = daoC.getAllCart(id); // 장바구니에 있는 책
-			list1 = daoL.getnonLoanbooks(id); // 빌리고 아직 반납 안한 책
+			list = daoC.getAllCart(sessionId); // 장바구니에 있는 책
+			list1 = daoL.getnonLoanbooks(sessionId); // 빌리고 아직 반납 안한 책
 
 			for (int i = 0; i < list.size(); i++) {
 				Cart check = list.get(i);
@@ -568,7 +570,7 @@ public class LibraryController {
 					return "Library/View";
 				}
 			}
-			daoC.addCart(id, bid); // 장바구니에 넣기
+			daoC.addCart(sessionId, bid); // 장바구니에 넣기
 
 
 		} catch (Exception e) {
@@ -582,7 +584,7 @@ public class LibraryController {
 		// 추가 끝.
 
 		// 장바구니 조회 시작.
-		// todo : 리스트는 나오나, 제목, 수량 등 값이 안 나옴.(Cartlist)
+		// t.odo : 리스트는 나오나, 제목, 수량 등 값이 안 나옴.(Cartlist)
 		//          방법이 없다면 컨트롤러로 보내고, 컨트롤러에서 다시 조회로 보내자.
 		/*try {
 			count = daoL.getbookcount(id);
@@ -605,13 +607,13 @@ public class LibraryController {
 
 	// 장바구니 조회
 	@GetMapping("listcart")
-	public String listcart(@RequestParam String id, Model m) {
+	public String listcart(@SessionAttribute String sessionId, Model m) {
 		int count;
 		List<Cart> list;
 
 		try {
-			count = daoL.getbookcount(id);
-			list = daoC.getAllCart(id);
+			count = daoL.getbookcount(sessionId);
+			list = daoC.getAllCart(sessionId);
 			m.addAttribute("booklist", list);
 			m.addAttribute("count", count);
 		} catch (Exception e) {
@@ -626,11 +628,11 @@ public class LibraryController {
 
 	// 장바구니 삭제
 	@GetMapping("deleteCart")
-	public String deleteCart(@RequestParam String id, @RequestParam int bid, Model m) {
+	public String deleteCart(@SessionAttribute String sessionId, @RequestParam int bid, Model m) {
 		int count;
 		List<Cart> list;
 		try {
-			daoC.delCart(id, bid);
+			daoC.delCart(sessionId, bid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("장바구니 삭제 과정에서 문제 발생!!");
@@ -641,8 +643,8 @@ public class LibraryController {
 		// 삭제 끝
 		// 장바구니 조회 시작.
 		try {
-			count = daoL.getbookcount(id);
-			list = daoC.getAllCart(id); // 다시 조회
+			count = daoL.getbookcount(sessionId);
+			list = daoC.getAllCart(sessionId); // 다시 조회
 
 			m.addAttribute("booklist", list); // 장바구니 목록
 			m.addAttribute("count", count); // 책 수
@@ -658,14 +660,14 @@ public class LibraryController {
 
 	// 책 대여
 	@GetMapping("loan")
-	public String loan(@RequestParam String id, Model m) {
+	public String loan(@SessionAttribute String sessionId, Model m) {
 		List<Cart> list;
 		int count;
 
 		// 장바구니 조회 시작.
 		try {
-			count = daoL.getbookcount(id);
-			list = daoC.getAllCart(id);
+			count = daoL.getbookcount(sessionId);
+			list = daoC.getAllCart(sessionId);
 
 			m.addAttribute("booklist", list); // 장바구니 목록
 			m.addAttribute("count", count); // 책 수
@@ -680,7 +682,7 @@ public class LibraryController {
 		// 연체기간(Overdue)이 오늘보다 크면 대여 금지.
 		Login g;
 		try {
-			g = daoG.check(id);
+			g = daoG.check(sessionId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("책 대여 과정에서 문제 발생!!");
@@ -709,7 +711,7 @@ public class LibraryController {
 		}
 		// 장바구니에 책이 있더라도 책의 수량이 0이면 책 대여 금지
 		try {
-			list = daoC.getAllCart(id); // 장바구니에 있는 책
+			list = daoC.getAllCart(sessionId); // 장바구니에 있는 책
 
 			for (int i = 0; i < list.size(); i++) {
 				Cart check = list.get(i);
@@ -719,15 +721,15 @@ public class LibraryController {
 					// 나중에 수정하자
 					//return "lib?action=listcart&id=" + id + "&msg=0";
 					m.addAttribute("msg", "0");
-					m.addAttribute("id", id);
+					m.addAttribute("id", sessionId);
 					return "Library/cart";
 				}
 			}
 			//System.out.println(" loan id값 : " + id);
-			daoL.LoanBook(id);
-			daoC.delCartpro(id);
-			dao.downcount(id);
-			daoG.uploancount(id);
+			daoL.LoanBook(sessionId);
+			daoC.delCartpro(sessionId);
+			dao.downcount(sessionId);
+			daoG.uploancount(sessionId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("책 대여 과정에서 문제 발생!!");
@@ -737,7 +739,7 @@ public class LibraryController {
 		}
 		// 대여 끝
 		// 대여 페이지 조회 시작
-		// todo : 리스트는 나오나, 제목, 수량 등 값이 안 나옴.(Loanlist)
+		// t.odo : 리스트는 나오나, 제목, 수량 등 값이 안 나옴.(Loanlist)
 		//          방법이 없다면 컨트롤러로 보내고, 컨트롤러에서 다시 조회로 보내자.
 		/*try {
 			List<Loan> list3;
@@ -759,7 +761,8 @@ public class LibraryController {
 
 	// 책 대여 정보
 	@GetMapping("listloan")
-	public String listloan(@RequestParam String id, Model m) {
+	public String listloan(@SessionAttribute String sessionId, Model m) {
+
 		List<Loan> list = null;
 		DecimalFormat df = new DecimalFormat("#0");
 		Calendar currentCalendar = Calendar.getInstance();
@@ -770,7 +773,7 @@ public class LibraryController {
 		m.addAttribute("now", now);
 
 		try {
-			list = daoL.getAllLoan(id);
+			list = daoL.getAllLoan(sessionId);
 			m.addAttribute("booklist", list);
 
 
@@ -786,12 +789,12 @@ public class LibraryController {
 
 	// 책 반납
 	@GetMapping("ReturnBook")
-	public String ReturnBook(@RequestParam String id, @RequestParam int bid, @RequestParam int period, Model m) {
+	public String ReturnBook(@SessionAttribute String sessionId, @RequestParam int bid, @RequestParam int period, Model m) {
 		Login g;
 
 		try {
-			dao.upcount(id, bid);
-			daoL.ReturnBook(id, bid);
+			dao.upcount(sessionId, bid);
+			daoL.ReturnBook(sessionId, bid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("책 반납 과정에서 문제 발생!!");
@@ -803,7 +806,7 @@ public class LibraryController {
 		// 대여 페이지
 		try {
 			List<Loan> list;
-			list = daoL.getAllLoan(id);
+			list = daoL.getAllLoan(sessionId);
 			m.addAttribute("booklist", list);
 
 		} catch (Exception e) {
@@ -816,7 +819,7 @@ public class LibraryController {
 		// 연체일*3일 만큼 연체 못하도록 ㄱ
 		try {
 			if (period > 0) {
-				daoG.overdue(period, id);
+				daoG.overdue(period, sessionId);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -827,7 +830,7 @@ public class LibraryController {
 		}
 
 		try {
-			g = daoG.check(id);
+			g = daoG.check(sessionId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("책 대여 과정에서 문제 발생!!");
@@ -892,6 +895,7 @@ public class LibraryController {
 		return "Library/loan";
 	}
 
+	// 리뷰 삭
 	@GetMapping("/delreview/{id}")
 	public String delreview(@PathVariable int id, Model m, @SessionAttribute String sessionId) {
 		try {
@@ -947,7 +951,7 @@ public class LibraryController {
 		return "Library/View";
 	}
 
-	// 이번달 추천 책 + index
+	// 순위
 	@GetMapping("/rank")
 	public String rank(Model m) {
 		List<Login> RClist;
@@ -1054,6 +1058,8 @@ public class LibraryController {
 				return "Library/Control";
 			} else {
 				// 토큰 없으니 회원가입 ㄱ(사실 토큰이 아니라 아이디 값임 ㅎ;)
+				// todo : 수정 할거면 하자.
+				// 이메일값 받아오기.
 				m.addAttribute("msg", "0");
 				m.addAttribute("token", id);
 				return "Library/member/addMember";
@@ -1069,7 +1075,8 @@ public class LibraryController {
 		return "Library/member/kakao";
 	}
 
-	@PostMapping("emailcheck")
+	// 이메일 인증 확인
+	@PostMapping("/emailcheck")
 	public String emailcheck(HttpServletRequest req, @RequestParam String id, @RequestParam String emailkey, Model m) throws Exception {
 		Login g = null;
 
@@ -1101,6 +1108,7 @@ public class LibraryController {
 		}
 	}
 
+	// 아이디 찾기
 	@PostMapping("findidd")
 	public String findidd(HttpServletRequest req, @RequestParam String email, Model m) throws Exception {
 		Login g = null;
@@ -1200,7 +1208,8 @@ public class LibraryController {
 	}
 
 
-	@PostMapping("newpw")
+	// 새 비밀번호로 변경
+	@PostMapping("/newpw")
 	public String newpw(@RequestParam String lid, @RequestParam String password, Model m, HttpServletRequest req) {
 		Login g = null;
 
@@ -1247,6 +1256,7 @@ public class LibraryController {
 		}
 	}
 
+	// 리뷰 추천/비추천
 	@GetMapping("/reviewlikes/{id}/{rid}")
 	public String reviewlikes(@PathVariable int id, @PathVariable int rid, @SessionAttribute String sessionId, Model m) {
 		try {
@@ -1263,7 +1273,7 @@ public class LibraryController {
 			ReviewLikes rlt = daoRl.checklid(r.getId());
 			// 등록되어 있지않다면 등록 겸 추천수도 ㄱ\
 			if (rlt == null) {
-				System.out.println("널 값이니까 추가");
+				//System.out.println("널 값이니까 추가");
 				// 좋아요 누른 리뷰 좋아요 카운트 추가.
 				r.setLikes(r.getLikes() + 1);
 				daoR.updatelikes(r);
@@ -1284,7 +1294,7 @@ public class LibraryController {
 				m.addAttribute("msg", "5");
 			} else { // 등록되어 있다면 삭제하고 추천수 내리기
 
-				System.out.println("등록되어 있으니 삭제");
+				//System.out.println("등록되어 있으니 삭제");
 				r.setLikes(r.getLikes() - 1);
 				daoR.updatelikes(r);
 

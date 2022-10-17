@@ -69,7 +69,8 @@
       <div class="col-md-6">
         <div class="h-100 px-3 pt-3 pb-5 text-bg-dark rounded-3">
           <h1 class="pb-3 text-center">도서관 위치</h1>
-          						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1629.4933461709093!2d128.58319310059574!3d35.23170130097478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356f32161a07d2b5%3A0xd8e276b01df1f6e4!2z7JWE7J207Yuw7JeQ65OA64S37ZWZ7JuQ!5e0!3m2!1sko!2skr!4v1663147825611!5m2!1sko!2skr" width="100%" height="80%" style="border: 0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          						<div id="map" style="width:100%;height:80%;"></div>
         </div>
       </div>
       <div class="col-md-6">
@@ -88,5 +89,45 @@
 </main>
 
 	<jsp:include page="./footer.jsp" />
+
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=372e9be4c85d8e5f3b182ea4e17070ae&libraries=services"></script>
+    <script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('경상남도 창원시 마산회원구 양덕북12길 113 경민인터빌 407호', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+         if (status === kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0; color:black;">IT Library</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+    });
+    </script>
 </body>
 </html>
