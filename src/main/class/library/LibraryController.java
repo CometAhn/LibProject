@@ -83,6 +83,30 @@ public class LibraryController {
 		return controller;
 	}
 
+	@PostMapping("/bookup")
+	public String updateBook(@ModelAttribute Library library, Model m, @RequestParam("file") MultipartFile file) {
+		try {
+			System.out.println("이미지이름 : " + file.getOriginalFilename());
+			// 저장 파일 객체 생성
+			File dest = new File(fdir + file.getOriginalFilename());
+
+			// 파일 저장
+			file.transferTo(dest);
+
+			// library 객체에 파일 이름 저장
+			library.setBookCover(dest.getName());
+			dao.addBook(library);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("책 추가 과정에서 문제 발생!!");
+			m.addAttribute("error", "책이 정상적으로 등록되지 않았습니다!!");
+			m.addAttribute("msg", "2");
+			return controller;
+		}
+		m.addAttribute("msg", "1");
+		return controller;
+	}
+
 	// getAll 메서드 구현
 	@GetMapping("/list")
 	public String listbook(@RequestParam int pagenum, @RequestParam String items, @RequestParam String text, Model m) {
@@ -1033,16 +1057,10 @@ public class LibraryController {
 
 		String access_token = ks.getToken(code);
 		Map<String, Object> userInfo = ks.getUserInfo(access_token);
-		String agreementInfo = ks.getAgreementInfo(access_token);
+		//String agreementInfo = ks.getAgreementInfo(access_token);
 
-		// 와! 문자 나누기!
-		String test = agreementInfo.replace("\"", "");
-		test = test.replace("{", "");
-		test = test.replace("}", "");
-		test = test.replace("[", "");
-		test = test.replace("]", "");
-		String[] test1 = test.split(",");
-		String id = test1[0].substring(3);
+		// 유저 아이디 값
+		String id = userInfo.get("id").toString();
 
 		Login g = null;
 

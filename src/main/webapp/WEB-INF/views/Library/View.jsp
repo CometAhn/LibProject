@@ -2,6 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String sessionId = (String) session.getAttribute("sessionId");
+	boolean admin;
+
+
+	if (session.getAttribute("admin") != null) {
+		admin = (Boolean) session.getAttribute("admin");
+	} else {
+		admin = false;
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -90,17 +98,10 @@ String sessionId = (String) session.getAttribute("sessionId");
 	<jsp:include page="./menu.jsp" />
 	<script type="text/javascript">
 		function addtocart() {
-			if (confirm("상품을 장바구니에 추가 하시겠습니까?")) {
+			if (confirm("장바구니에 담은 후 장바구니로 이동 하시겠습니까?")) {
 		    location.href = "/Lib/addcarttocart?bid=${book.bid}";
 			} else {
-
-			}
-		}
-		function addtocart1() {
-			if (confirm("상품을 장바구니에 추가 하시겠습니까?")) {
 		    location.href = "/Lib/addcart?bid=${book.bid}";
-			} else {
-
 			}
 		}
     	function loginfirst() {
@@ -126,15 +127,31 @@ String sessionId = (String) session.getAttribute("sessionId");
 			<form name="addform" action="" method="post">
 				<% if (sessionId != null) {
 				    %>
-				<a class="btn btn-info" onclick="addtocart()">책 대여 &raquo;</a>
-				 <a class="btn btn-warning" onclick="addtocart1()">장바구니 &raquo;</a>
+				<a class="btn btn-info" onclick="addtocart()">도서 대여 &raquo;</a>
 				    <% } else { %>
-				<a class="btn btn-info" onclick="loginfirst()">책 대여 &raquo;</a>
-				 <a class="btn btn-warning" onclick="loginfirst()">장바구니 &raquo;</a>
+				<a class="btn btn-info" onclick="loginfirst()">도서 대여 &raquo;</a>
 				 <% } %>
 
-				  <a href="/Lib/list?pagenum=1&items=Title&text=" class="btn btn-secondary">도서 목록 &raquo;</a> <a href="javascript:history.back()" " class="btn btn-primary"><< Back</a>
+				  <a href="/Lib/list?pagenum=1&items=Title&text=" class="btn btn-secondary">도서 목록 &raquo;</a>
+	<%
+	if (admin == true) {
+	%>
+				  <a class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#editForm" aria-expanded="false" aria-controls="editForm">도서 수정</a>
 			</form>
+					<div class="collapse" id="editForm">
+					<div class="card card-body">
+                   			<form action="/Lib/bookup" method="post" enctype="multipart/form-data" autocomplete="off">
+                   				<label class="form-label">제목</label> <input type="text" name="title" class="form-control" value="${book.title}"><label class="form-label"> 글쓴이</label> <input type="text" name="writer" class="form-control" value="${book.writer}"> <label class="form-label">책 내용</label>
+                   				<textarea rows="5" cols="50" name="description" class="form-control">${book.description}</textarea>
+                   				<label class="form-label">분류</label> <input type="text" name="category" class="form-control" value="${book.category}"> <label class="form-label">출판사</label> <input type="text" name="publisher" class="form-control" value="${book.publisher}"> <label class="form-label">수량</label> <input type="text" name="stock" class="form-control" value="${book.stock}"> <label class="form-label">이미지</label> <input type="file" name="file" class="form-control">
+                   				<button type="submit" class="btn btn-success mt-3">변경</button>
+                   			</form>
+                   		</div>
+                   	</div>
+
+	<%
+	}
+	%>
 		</div>
 		<hr>
 	</div>
@@ -166,25 +183,6 @@ String sessionId = (String) session.getAttribute("sessionId");
 					<c:if test="${review.login.lid == sessionId}">
 						<a href="/Lib/delreview/${review.loan.id}" class="btn btn-danger">삭제</a>
 						<a class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#addForm${review.id}" aria-expanded="false" aria-controls="addForm">리뷰 수정</a>
-						<!-- 리뷰 수정 기능 -->
-						<div class="collapse" id="addForm${review.id}">
-							<div class="card card-body">
-								<form action="/Lib/upreview" method="post" enctype="multipart/form-data">
-									<input type="text" name="id" class="form-control" value="${review.id}" hidden> <input type="text" name="library.bid" class="form-control" value="${book.bid}" hidden> <label class="form-label"> 제목 </label> <input type="text" name="title" class="form-control" value="${review.title}"> <label class="form-label">리뷰 내용</label>
-									<textarea rows="5" cols="50" name="contents" class="form-control">${review.contents}</textarea>
-									<label class="form-label"> 평점 </label>
-                                    <select name="score" id="score" class="form-control">
-                                        <option value="1"> ★☆☆☆☆ </option>
-                                        <option value="2"> ★★☆☆☆ </option>
-                                        <option value="3"> ★★★☆☆ </option>
-                                        <option value="4"> ★★★★☆ </option>
-                                        <option value="5"> ★★★★★ </option>
-                                    </select>
-									<!-- 평점 추가 해야함 -->
-									<button type="submit" class="btn btn-success mt-3">수정</button>
-								</form>
-							</div>
-						</div>
 					</c:if>
 				    <c:choose>
 					    <c:when test="${empty sessionId}">
@@ -206,6 +204,25 @@ String sessionId = (String) session.getAttribute("sessionId");
     					    </c:if>
 					    </c:otherwise>
 				    </c:choose>
+					<!-- 리뷰 수정 기능 -->
+						<div class="collapse" id="addForm${review.id}">
+							<div class="card card-body">
+								<form action="/Lib/upreview" method="post" enctype="multipart/form-data">
+									<input type="text" name="id" class="form-control" value="${review.id}" hidden> <input type="text" name="library.bid" class="form-control" value="${book.bid}" hidden> <label class="form-label"> 제목 </label> <input type="text" name="title" class="form-control" value="${review.title}"> <label class="form-label">리뷰 내용</label>
+									<textarea rows="5" cols="50" name="contents" class="form-control">${review.contents}</textarea>
+									<label class="form-label"> 평점 </label>
+                                    <select name="score" id="score" class="form-control">
+                                        <option value="1"> ★☆☆☆☆ </option>
+                                        <option value="2"> ★★☆☆☆ </option>
+                                        <option value="3"> ★★★☆☆ </option>
+                                        <option value="4"> ★★★★☆ </option>
+                                        <option value="5"> ★★★★★ </option>
+                                    </select>
+									<!-- 평점 추가 해야함 -->
+									<button type="submit" class="btn btn-success mt-3">수정</button>
+								</form>
+							</div>
+						</div>
 				</div>
 			</div>
 		</c:forEach>

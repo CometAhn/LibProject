@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String sessionId = (String) session.getAttribute("sessionId");
+int i = 1;
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link href="http://localhost/css/loading.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
-<title>장바구니</title>
+<title>대여 목록</title>
 </head>
 <body>
 	<script type="text/javascript">
@@ -56,7 +57,8 @@ String sessionId = (String) session.getAttribute("sessionId");
 					<c:forEach var="book" items="${booklist}" varStatus="status">
 						<c:if test="${book.status == true}">
 							<tr>
-								<th scope="row">${status.count}</th>
+								<th scope="row"><%=i%></th>
+								<%i++;%>
 								<td><a href="getbook/${book.library.bid}"> ${book.library.title}(${book.library.writer})</a></td>
 								<td>${book.startDate }~${book.endDate } <c:choose>
 										<c:when test="${book.period > 0}">
@@ -84,7 +86,7 @@ String sessionId = (String) session.getAttribute("sessionId");
         <div class="text-center mb-5">
 		<b class="p-3">- 연체 시 (연체일 * 3)일동안 도서를 대여 할 수 없습니다.</b>
 		</div>
-
+        <%i=1;%>
 
 
 		<h1 class="text-center p-3">도서 대여 기록</h1>
@@ -102,7 +104,8 @@ String sessionId = (String) session.getAttribute("sessionId");
 					<c:forEach var="book" items="${booklist}" varStatus="status">
 						<c:if test="${book.status == false}">
 							<tr>
-								<th scope="row">${status.count}</th>
+								<th scope="row"><%=i%></th>
+								<%i++;%>
 								<td><a href="getbook/${book.library.bid}"> ${book.library.title}(${book.library.writer})</a></td>
 								<td>${book.startDate }~${book.endDate }</td>
 								<td><c:choose>

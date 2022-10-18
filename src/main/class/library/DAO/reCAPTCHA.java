@@ -27,7 +27,7 @@ public class reCAPTCHA {
 
 		try {
 			JSONParser parser = new JSONParser();
-			json = (JSONObject)parser.parse(jsonString);
+			json = (JSONObject) parser.parse(jsonString);
 			System.out.println("json: " + json.toJSONString());
 
 		} catch (Exception e) {
