@@ -88,11 +88,15 @@ String sessionId = (String) session.getAttribute("sessionId");
       		alert('리뷰 추천을 취소했습니다.');
       	</script>
       	<%
+    } else if (msg.equals("7")) {
+        %>
+        <script>
+        	alert('도서 정보를 변경했습니다.');
+        </script>
+        <%
     }
     }
 	%>
-
-
 
 	<!-- 상단 메뉴 -->
 	<jsp:include page="./menu.jsp" />
@@ -119,6 +123,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 			<img class="card-img-top" src="${book.bookCover}">
 			<div class="card-body">
 				<h4 class="card-title">책 제목 : ${book.title}</h4>
+				<p class="card-text">작가명 : ${book.writer}</p>
 				<p class="card-text">책 내용 : ${book.description}</p>
 				<p class="card-text">분류 : ${book.category}</p>
 				<p class="card-text">출판사 : ${book.publisher}</p>
@@ -141,6 +146,7 @@ String sessionId = (String) session.getAttribute("sessionId");
 					<div class="collapse" id="editForm">
 					<div class="card card-body">
                    			<form action="/Lib/bookup" method="post" enctype="multipart/form-data" autocomplete="off">
+                   			<input type="text" name="bid" class="form-control" value="${book.bid}" hidden>
                    				<label class="form-label">제목</label> <input type="text" name="title" class="form-control" value="${book.title}"><label class="form-label"> 글쓴이</label> <input type="text" name="writer" class="form-control" value="${book.writer}"> <label class="form-label">책 내용</label>
                    				<textarea rows="5" cols="50" name="description" class="form-control">${book.description}</textarea>
                    				<label class="form-label">분류</label> <input type="text" name="category" class="form-control" value="${book.category}"> <label class="form-label">출판사</label> <input type="text" name="publisher" class="form-control" value="${book.publisher}"> <label class="form-label">수량</label> <input type="text" name="stock" class="form-control" value="${book.stock}"> <label class="form-label">이미지</label> <input type="file" name="file" class="form-control">

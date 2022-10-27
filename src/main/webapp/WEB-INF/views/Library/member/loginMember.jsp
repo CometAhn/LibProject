@@ -45,68 +45,69 @@
 		<div class="w-25 p-3 border border-dark border-opacity-25 rounded d-flex justify-content-center">
 		<form class="form-signin" action="/Lib/login" method="post" onsubmit="return onSubmit();">
 
-		<%
-		String msg = request.getParameter("msg");
 
-		if (msg != null) {
-			if (msg.equals("0")) {
-		%>
-		<script>
-			alert('회원가입이 완료되었습니다.');
-		</script>
-		<%
-		}
-
-		}
-		%>
-
-		<%
-		String error;
-
-		if (request.getAttribute("error") != null) {
-			error = (String) request.getAttribute("error");
-		} else {
-			error = null;
-		}
-		if (error != null) {
-			if (error == "0") {
-				out.println("<div class='alert alert-success'>");
-				out.println("계정 생성이 완료되었습니다.");
-				out.println("</div>");
-			} else if (error == "1") {
-				out.println("<div class='alert alert-danger'>");
-				out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
-				out.println("</div>");
-			} else if (error == "2") {
-				out.println("<div class='alert alert-danger'>");
-				out.println("탈퇴한 계정입니다.");
-				out.println("</div>");
-			} else if (error == "3") {
-                session.invalidate();
-				out.println("<div class='alert alert-success'>");
-				out.println("회원 정보가 변경되었습니다.");
-				out.println("</div>");
-			} else if (error == "4") {
-				session.invalidate();
-				out.println("<div class='alert alert-danger'>");
-				out.println("회원 탈퇴가 완료되었습니다.");
-				out.println("</div>");
-			} else if (error == "5") {
-				out.println("<div class='alert alert-danger'>");
-				out.println("reCAPTCHA 동의 후 다시 로그인해주세요.");
-				out.println("</div>");
-			} else if (error == "6") {
-				out.println("<div class='alert alert-success'>");
-				out.println("이메일로 임시비밀번호를 전송했습니다.");
-				out.println("</div>");
-			} else if (error == "7") {
-				out.println("<div class='alert alert-success'>");
-				out.println("비밀번호가 변경되었습니다.");
-				out.println("</div>");
-			}
-		}
-		%>
 		<h1 class="p-3">Login</h1>
+				<%
+        		String msg = request.getParameter("msg");
+
+        		if (msg != null) {
+        			if (msg.equals("0")) {
+        		%>
+        		<script>
+        			alert('회원가입이 완료되었습니다.');
+        		</script>
+        		<%
+        		}
+
+        		}
+        		%>
+
+        		<%
+        		String error;
+
+        		if (request.getAttribute("error") != null) {
+        			error = (String) request.getAttribute("error");
+        		} else {
+        			error = null;
+        		}
+        		if (error != null) {
+        			if (error == "0") {
+        				out.println("<div class='alert alert-success'>");
+        				out.println("계정 생성이 완료되었습니다.");
+        				out.println("</div>");
+        			} else if (error == "1") {
+        				out.println("<div class='alert alert-danger'>");
+        				out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
+        				out.println("</div>");
+        			} else if (error == "2") {
+        				out.println("<div class='alert alert-danger'>");
+        				out.println("탈퇴한 계정입니다.");
+        				out.println("</div>");
+        			} else if (error == "3") {
+                        session.invalidate();
+        				out.println("<div class='alert alert-success'>");
+        				out.println("회원 정보가 변경되었습니다.");
+        				out.println("</div>");
+        			} else if (error == "4") {
+        				session.invalidate();
+        				out.println("<div class='alert alert-danger'>");
+        				out.println("회원 탈퇴가 완료되었습니다.");
+        				out.println("</div>");
+        			} else if (error == "5") {
+        				out.println("<div class='alert alert-danger'>");
+        				out.println("reCAPTCHA 동의 후 다시 로그인해주세요.");
+        				out.println("</div>");
+        			} else if (error == "6") {
+        				out.println("<div class='alert alert-success'>");
+        				out.println("이메일로 임시비밀번호를 전송했습니다.");
+        				out.println("</div>");
+        			} else if (error == "7") {
+        				out.println("<div class='alert alert-success'>");
+        				out.println("비밀번호가 변경되었습니다.");
+        				out.println("</div>");
+        			}
+        		}
+        		%>
 			<div class="form-floating">
 				<input type="text" class="form-control" placeholder="ID" name="id" value="${id}" required autofocus> <label for="floatingInput">아이디</label>
 			</div>
@@ -121,7 +122,7 @@
 				<a href="/Lib/findid">아이디 </a> / <a href="/Lib/findpw">비밀번호 찾기</a>
 			</p>
 			<p>
-				<a class="d-flex justify-content-center" href="https://kauth.kakao.com/oauth/authorize?client_id=e6f60f053eb85f6437f9f7e99973580c&redirect_uri=http://localhost/Lib/kakao&response_type=code"><img src="/images/kakao_login_large_narrow.png" alt=""></a>
+				<a class=o"d-flex justify-cntent-center" href="https://kauth.kakao.com/oauth/authorize?client_id=e6f60f053eb85f6437f9f7e99973580c&redirect_uri=http://localhost/Lib/kakao&response_type=code"><img src="/images/kakao_login_large_narrow.png" alt=""></a>
 			</p>
 			</div>
 			</div>

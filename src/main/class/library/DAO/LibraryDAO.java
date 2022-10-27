@@ -2,6 +2,7 @@ package library.DAO;
 
 import library.Entity.Library;
 import library.Entity.Loan;
+import library.Entity.Login;
 import library.Repository.LibraryRepository;
 import library.Repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -37,9 +39,13 @@ public class LibraryDAO {
 
 	// 책 등록(administrator)
 	public void addBook(Library n) throws Exception {
-		n.setBookCover("/img/" + n.getBookCover());
+		LocalDateTime date = LocalDateTime.now();
+		String sdate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(date);
+
+		n.setDate(sdate);
 		Library newlib = libraryrepository.save(n);
 	}
+
 
 	// 책 목록
 	// 페이지 넘버링 해야함 -> 야매로 함!

@@ -86,25 +86,38 @@ public class LibraryController {
 	@PostMapping("/bookup")
 	public String updateBook(@ModelAttribute Library library, Model m, @RequestParam("file") MultipartFile file) {
 		try {
-			System.out.println("이미지이름 : " + file.getOriginalFilename());
-			// 저장 파일 객체 생성
-			File dest = new File(fdir + file.getOriginalFilename());
+			// 파일 이름 안 가져 오면
+			if (file.getOriginalFilename().equals("")) {
+				// bid를 이용해서 기존에 이미지 그대로 가져오기.
+				Library b = dao.getBook(library.getBid());
 
-			// 파일 저장
-			file.transferTo(dest);
+				library.setBookCover(b.getBookCover());
+			} else {
+				// 파일 이름을 가져오면
+				// 저장 파일 객체 생성
+				File dest = new File(fdir + file.getOriginalFilename());
+
+				// 파일 저장
+				file.transferTo(dest);
+				library.setBookCover("/img/" + dest.getName());
+			}
 
 			// library 객체에 파일 이름 저장
-			library.setBookCover(dest.getName());
 			dao.addBook(library);
+
+			m.addAttribute("book", library);
+			List<Review> list = daoR.getReview(library.getBid());
+			m.addAttribute("reviewlist", list);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.warn("책 추가 과정에서 문제 발생!!");
-			m.addAttribute("error", "책이 정상적으로 등록되지 않았습니다!!");
+			logger.warn("책 수정 과정에서 문제 발생!!");
+			m.addAttribute("error", "책이 정상적으로 수정되지 않았습니다!!");
 			m.addAttribute("msg", "2");
 			return controller;
 		}
-		m.addAttribute("msg", "1");
-		return controller;
+		m.addAttribute("msg", "7");
+		return "Library/View";
 	}
 
 	// getAll 메서드 구현
@@ -426,17 +439,19 @@ public class LibraryController {
 	}
 
 	// 로그인
-	@PostMapping("login")
+	@PostMapping("/login")
 	public String login(HttpServletRequest req, @RequestParam String id, @RequestParam(name = "password") String pw, Model m) throws Exception {
 		Login g = null;
 
+		// reCAPTCHA
 		String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
 		JSONObject json = re.getJSONResponse(gRecaptchaResponse);
 
 		boolean isSuccess = (boolean) json.get("success");
 
-		// 리캡챠 동의 안되어있으면, 로그인 ㄴㄴ
+		// 리캡챠 동의 안되어있으면,
 		if (isSuccess == false) {
+			// 로그인 페이지로 이동하여 리캡챠 오류 메시지 출력
 			m.addAttribute("error", "5");
 			m.addAttribute("id", id);
 			m.addAttribute("pw", pw);
@@ -447,25 +462,25 @@ public class LibraryController {
 			// 아이디 값으로 데이터 조회.
 			g = daoG.check(id);
 
-			// 아이디가 틀렸다면
+			// 아이디가 틀렸다면,
 			if (g == null) {
-				// System.out.println("sql에서 일치하는 아이디를 못 가져옴. 아이디/비번 불일치 ㄱ");
+				// 로그인 페이지로 이동하여 일치하는 정보 없음 메시지 출력
 				m.addAttribute("error", "1");
 				return "Library/member/loginMember";
 			}
 
-			// 입력한 비밀번호와 db에서 받아온 난문자열로 암호화한 후
+			// 입력한 비밀번호와 db에서 받아온 난문자열로 암호화한 후,
 			String sha1pw = enc.encrypt(pw, g.getPasswordKey());
 
-			// 비밀번호와 일치하는지 확인
+			// 비밀번호와 일치하는지 확인.
 			if (g.getPassword().equals(sha1pw)) {
-				// 일치하면 로그인
+				// 일치하면 로그인.
 				m.addAttribute("login", g.getLid());
 				m.addAttribute("grade", g.isGrade());
 				m.addAttribute("name", g.getName());
 				m.addAttribute("token", g.getToken());
 			} else {
-				// 아니라면 다시 로그인 시도 ㄱ
+				// 아니라면 다시 로그인 시도
 				m.addAttribute("error", "1");
 				// 아이디와 비밀번호를 다시 확인해주세요.
 				return "Library/member/loginMember";
@@ -475,37 +490,33 @@ public class LibraryController {
 			logger.warn("로그인 과정에서 문제 발생!!");
 			m.addAttribute("error", "로그인에 실패했습니다!!!");
 		}
+
+		// 로그인 값이 널이 아니라면,
 		if (g != null) {
-			// 이거 현재 안씀. Login temp에서 미리 아이디 체크함.
-			/*
-			if (g.getLid() == null) {
-				// System.out.println("sql에서 일치하는 아이디를 못 가져옴. 아이디/비번 불일치 ㄱ");
-				m.addAttribute("error", "1");
-				return "Library/member/loginMember";
-			}*/
-			if (/*g.getLid() != null && */g.isUsed() == false) {
-				// System.out.println("탈퇴한 계정(" + g.getLid() + ")에서 로그인 시도, 탈퇴 메시지 ㄱ");
+			// 탈퇴한 계정이면,
+			if (g.isUsed() == false) {
+				// 로그인 페이지로 이동 후 탈퇴한 계정 메시지 출력
 				m.addAttribute("error", "2");
 				return "Library/member/loginMember";
 			}
-			// 이메일 인증이 안되어 있으면
+			// 이메일 인증이 안되어 있으면,
 			if (g.isChecked() == false) {
-				// 이메일 인증부터 ㄱ
+				// 이메일 인증 페이지로 이동.
 				m.addAttribute("id", g.getLid());
 				m.addAttribute("email", g.getEmail());
 				m.addAttribute("error", "0");
 				return "Library/member/checkEmail";
 			}
-			// 임시번호라면
+			// 임시번호라면,
 			if (g.isTemppw() == true) {
-				// 비밀번호 변경 ㄱ
+				// 비밀번호 변경 페이지로 이동.
 				m.addAttribute("id", g.getLid());
 				m.addAttribute("error", "2");
 				return "Library/member/newPW";
 			}
 		}
 		m.addAttribute("msg", "0");
-		return "Library/Control";
+		return controller;
 	}
 	//// 멤버 끝
 
@@ -1053,13 +1064,12 @@ public class LibraryController {
 	}
 
 	@GetMapping("/kakao")
-	public String getCI(@RequestParam String code, Model m) throws Exception {
+	public String kakaologin(@RequestParam String code, Model m) throws Exception {
 
 		String access_token = ks.getToken(code);
 		Map<String, Object> userInfo = ks.getUserInfo(access_token);
-		//String agreementInfo = ks.getAgreementInfo(access_token);
 
-		// 유저 아이디 값
+		// 카카오 유저 토큰(아이디) 값
 		String id = userInfo.get("id").toString();
 
 		Login g = null;
@@ -1067,17 +1077,16 @@ public class LibraryController {
 		try {
 			g = daoG.findtoken(id);
 			if (g != null) {
+				// 가져온 토큰 값을 가진 아이디가 있다면 로그인한다.
 				m.addAttribute("login", g.getLid());
 				m.addAttribute("grade", g.isGrade());
 				m.addAttribute("name", g.getName());
 				m.addAttribute("token", g.getToken());
 
 				m.addAttribute("msg", "0");
-				return "Library/Control";
+				return controller;
 			} else {
-				// 토큰 없으니 회원가입 ㄱ(사실 토큰이 아니라 아이디 값임 ㅎ;)
-				// todo : 수정 할거면 하자.
-				// 이메일값 받아오기.
+				// 겨자온 토큰 값을 가진 아이디가 없다면 회원가입한다.
 				m.addAttribute("msg", "0");
 				m.addAttribute("token", id);
 				return "Library/member/addMember";
@@ -1087,38 +1096,36 @@ public class LibraryController {
 			logger.warn("카카오 로그인 과정에서 문제 발생!!");
 			m.addAttribute("error", "카카오 로그인에 실패했습니다!!!");
 		}
-
-
-		//ci는 비즈니스 전환후 검수신청 -> 허락받아야 수집 가능
-		return "Library/member/kakao";
+		return null;
 	}
 
 	// 이메일 인증 확인
 	@PostMapping("/emailcheck")
-	public String emailcheck(HttpServletRequest req, @RequestParam String id, @RequestParam String emailkey, Model m) throws Exception {
+	public String emailcheck(@RequestParam String id, @RequestParam String emailkey, Model m) throws Exception {
 		Login g = null;
 
 		try {
+			// 아이디로 로그인 정보 불러 옴.
 			g = daoG.check(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.warn("로그인 과정에서 문제 발생!!");
-			m.addAttribute("error", "로그인에 실패했습니다!!!");
 		}
+		// 불러온 이메일키와 입력한 이메일키과 동일하면, 
 		if (g.getEmailkey().equals(emailkey)) {
-			// 인증번호 일치함. 로그인 가능하도록 ㄱ
+			// 이메일 인증 됨으로 변경.
 			g.setChecked(true);
 			daoG.updateCheck(g); // 수정
 
+			// 로그인
 			m.addAttribute("login", g.getLid());
 			m.addAttribute("grade", g.isGrade());
 			m.addAttribute("name", g.getName());
 			m.addAttribute("token", g.getToken());
 			m.addAttribute("msg", "0");
-			return "Library/Control";
+			return controller;
 
 		} else {
-			// 인증번호 불일치하면
+			// 인증번호 불일치하면 인증키 불일치 메시지 출력.
 			m.addAttribute("id", g.getLid());
 			m.addAttribute("email", g.getEmail());
 			m.addAttribute("error", "1");
@@ -1231,33 +1238,38 @@ public class LibraryController {
 	public String newpw(@RequestParam String lid, @RequestParam String password, Model m, HttpServletRequest req) {
 		Login g = null;
 
+		// reCAPTCHA
 		String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
 		JSONObject json = re.getJSONResponse(gRecaptchaResponse);
 
 		boolean isSuccess = (boolean) json.get("success");
-		// 리캡챠 동의 안되어있으면, 다시시도 ㄱ
+
+		// 리캡챠 동의 안되어있으면,
 		if (isSuccess == false) {
+			// 비밀번호 변경 페이지로 이동하여, 리캡챠 비동의 메시지 출력.
 			m.addAttribute("error", "0");
 			m.addAttribute("id", lid);
 			m.addAttribute("pw", password);
 			return "Library/member/newPW";
 		}
 
-
 		try {
+			// id로 로그인 정보를 불러 옴.
 			g = daoG.check(lid);
 
+			// 로그인 정보가 있으면,
 			if (g != null) {
-				// db저장용 난문자열
+				// db저장용 난문자열 생성.
 				String pwkey = enc.randnum();
-				// 새 번호를 암호화,
+				// 새 번호를 암호화.
 				g.setPassword(enc.encrypt(password, pwkey));
-				// 임시 번호 체크 해제 후,
+				// 임시 번호 체크 해제.
 				g.setTemppw(false);
-				// 난문자열 저장
+				// 난문자열 저장.
 				g.setPasswordKey(pwkey);
 				// 업데이트
 				daoG.update(g);
+				// 로그인 페이지로 이동
 				m.addAttribute("error", "7");
 				m.addAttribute("id", lid);
 				return "Library/member/loginMember";
@@ -1267,8 +1279,8 @@ public class LibraryController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.warn("비밀번호 찾기 중 오류 발생");
-			m.addAttribute("error", "비밀 번호 조회가 정상적으로 이루어지지 않았습니다.");
+			logger.warn("비밀번호 변경 중 오류 발생");
+			m.addAttribute("error", "비밀번호 변경이 정상적으로 이루어지지 않았습니다.");
 			m.addAttribute("msg", "2");
 			return controller;
 		}

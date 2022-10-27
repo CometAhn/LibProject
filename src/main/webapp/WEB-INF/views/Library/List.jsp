@@ -104,10 +104,8 @@
 		</div>
 		<!-- 에러 출력부 -->
 		<c:if test="${error != null }">
-			<div class="alert alert-danger alert-dismissible fade show mt-3">
-				<center>
-					<button type="button" class="btn-close" data-bs-dismiss="alert">${error}</button>
-				</center>
+			<div class="alert alert-danger fade show mt-3 text-center">
+                ${error}
 			</div>
 		</c:if>
 		<%
