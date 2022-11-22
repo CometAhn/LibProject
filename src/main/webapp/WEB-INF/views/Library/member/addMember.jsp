@@ -17,7 +17,7 @@
 <script src="/js/loading.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link href="http://localhost/css/loading.css" rel="stylesheet">
+<link href="/css/loading.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/e561738355.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -160,7 +160,9 @@
 				<input type="text" class="form-control" placeholder="token" name="token" value="${token}" hidden>
 				<h3>아이디</h3>
 				<p>
-					<input name="lid" type="text" class="form-control" placeholder="id" minlength="3" required>
+					<input name="lid" id="id" type="text" class="form-control" placeholder="id" minlength="3" required>
+					<input type="button" class="btn btn-primary" id="id-check" value="중복 확인">
+					<p class="message"></p>
 				</p>
 				<h3>비밀번호</h3>
 				<p>
@@ -209,7 +211,7 @@
 				</p>
 				<h3>연락처</h3>
 				<p>
-					<input name="phone" type="tel" class="form-control" placeholder="01000000000" minlength="11" maxlength="11" required>
+					<input name="phone" id="phone" type="tel" class="form-control" placeholder="01000000000" minlength="11" maxlength="11" required>
 				</p>
 				<h3>E-mail</h3>
 				<p>
@@ -224,13 +226,65 @@
 				</center>
 
 				<p>
-					<input type="submit" class="btn btn-primary " value="등록"> <input type="reset" class="btn btn-primary " value="초기화" onclick="reset()">
+					<input type="submit" class="btn btn-primary" value="등록"> <input type="reset" class="btn btn-primary " value="초기화" onclick="reset()">
 				</p>
 			</form>
 		</div>
 	</div>
 
 	<jsp:include page="../footer.jsp" />
+
+
+<script>
+    $('#id-check').on("click", (e) => {
+        const id = $('#id').val();
+    e.preventDefault()
+    console.log('btn click')
+    if(id.length === 0 || id === null) return alert("아이디를 입력하세요")
+
+    $.ajax({
+        type:'post',
+    async:false,
+    url:'http://localhost/Lib/idcheck',
+    dataType:'text',
+    data:{id:id},
+    success: function(data, textStatus) {
+
+            const jsonInfo = JSON.parse(data);
+
+    if(jsonInfo.used === 'no') {
+        $('.message').text('사용할 수 있는 ID입니다.')
+         $('.message').css('color','green')
+    $('#id-check').prop('disabled', true)
+                } else {
+        $('.message').css('color', 'red')
+        $('.message').text('이미 사용 중인 아이디입니다.')
+
+    // 여기서부턴 에이작스 안에 에이작스 공부용.
+    // 가져온 이메일을 이용하여, 연락처 가져오기.
+    $.ajax({
+        type:'post',
+    async:false,
+    url:'http://localhost/Lib/phonecheck',
+    dataType:'text',
+    data:{email:jsonInfo.email},
+    success: function(data, textStatus) {
+
+        $('#phone').attr("value", data);
+
+                },
+    error:function (data, textStatus) {
+        console.log('error');
+                }
+            })
+                }
+            },
+    error:function (data, textStatus) {
+        console.log('error');
+            }
+        })
+    })
+</script>
 
 </body>
 </html>

@@ -2,7 +2,6 @@ package library;
 
 import library.DAO.*;
 import library.Entity.*;
-import org.hibernate.Session;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -1347,5 +1349,61 @@ public class LibraryController {
 			throw new RuntimeException(e);
 		}
 		return "Library/View";
+	}
+
+	@PostMapping("idcheck")
+	public void idcheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+
+		List<Login> list = null;
+		try {
+			list = daoG.getid(request.getParameter("id"));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		PrintWriter out = response.getWriter();
+
+		//배열을 저장할 jObject
+		JSONObject jObject = new JSONObject();
+
+
+		System.out.println("아이디 확인용 :" + list);
+		if (list.size() >= 1) {
+
+			jObject.put("used", "yes");
+			System.out.println("존재하는 아이디");
+
+			for (Login check : list) {
+				jObject.put("email", check.getEmail());
+			}
+
+		} else {
+			jObject.put("used", "no");
+			System.out.println("존재하지 않는 아이디");
+		}
+		out.print(jObject);
+	}
+
+
+	@PostMapping("phonecheck")
+	public void phonecheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+
+		Login login = null;
+		try {
+			login = daoG.findemail(request.getParameter("email"));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		PrintWriter out = response.getWriter();
+
+
+		System.out.println("실행됐나? :" + login.getLid());
+		
+		out.print(login.getPhone());
 	}
 }
