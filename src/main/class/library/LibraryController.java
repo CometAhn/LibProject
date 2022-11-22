@@ -1372,7 +1372,6 @@ public class LibraryController {
 		if (list.size() >= 1) {
 
 			jObject.put("used", "yes");
-			System.out.println("존재하는 아이디");
 
 			for (Login check : list) {
 				jObject.put("email", check.getEmail());
@@ -1380,7 +1379,6 @@ public class LibraryController {
 
 		} else {
 			jObject.put("used", "no");
-			System.out.println("존재하지 않는 아이디");
 		}
 		out.print(jObject);
 	}
@@ -1403,7 +1401,7 @@ public class LibraryController {
 
 
 		System.out.println("실행됐나? :" + login.getLid());
-		
+
 		out.print(login.getPhone());
 	}
 }

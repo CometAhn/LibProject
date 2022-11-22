@@ -253,7 +253,7 @@
             const jsonInfo = JSON.parse(data);
 
     if(jsonInfo.used === 'no') {
-        $('.message').text('사용할 수 있는 ID입니다.')
+        $('.message').text('사용할 수 있는 아이디입니다.')
          $('.message').css('color','green')
     $('#id-check').prop('disabled', true)
                 } else {
